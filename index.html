@@ -79,11 +79,11 @@
     flex-wrap: wrap;
   }
   .nav-brand {
-    padding: 0 24px;
+    padding: 0 clamp(12px, 4vw, 24px);
     display: flex;
     align-items: center;
     font-family: 'Space Mono', monospace;
-    font-size: 10px;
+    font-size: clamp(8px, 2vw, 10px);
     color: rgba(255,255,255,0.3);
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -97,7 +97,7 @@
   }
   .nav-tab {
     flex: 1;
-    min-width: 80px;
+    min-width: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -110,13 +110,16 @@
     font-family: 'Cormorant Garamond', serif;
     transition: color 0.4s;
     border-right: 1px solid rgba(255,255,255,0.04);
-    padding: 12px 6px;
+    padding: clamp(8px, 2vw, 12px) clamp(4px, 1.5vw, 6px);
     text-align: center;
   }
+  @media (max-width: 480px) {
+    .nav-tab { min-width: 60px; padding: 6px 3px; }
+  }
   .nav-tab.active { color: rgba(255,255,255,0.9); }
-  .nav-tab .tab-label { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Space Mono', monospace; opacity: 0.6; }
+  .nav-tab .tab-label { font-size: clamp(7px, 1.5vw, 8px); letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Space Mono', monospace; opacity: 0.6; }
   .nav-tab.active .tab-label { opacity: 1; }
-  .nav-tab .tab-emotion { font-size: 13px; font-style: italic; font-weight: 300; }
+  .nav-tab .tab-emotion { font-size: clamp(11px, 3vw, 13px); font-style: italic; font-weight: 300; }
   .nav-tab .tab-indicator {
     position: absolute;
     bottom: 0; left: 50%;
@@ -143,7 +146,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: clamp(12px, 3vw, 24px);
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.8s ease, transform 0.8s ease;
@@ -151,10 +154,9 @@
   }
   .envelope-wrap.visible { opacity: 1; transform: translateY(0); }
   .envelope-wrap.opening { opacity: 0; transform: translateY(-40px) scale(0.95); }
-  .envelope { width: 200px; height: 140px; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6)); transition: transform 0.3s; cursor: none; }
-  @media (max-width: 550px) { .envelope { width: 160px; height: 112px; } }
+  .envelope { width: clamp(140px, 50vw, 200px); aspect-ratio: 10/7; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6)); transition: transform 0.3s; cursor: none; }
   .envelope:hover { transform: scale(1.03) rotateZ(1deg); }
-  .open-hint { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); font-family: 'Space Mono', monospace; animation: pulseHint 2.5s ease-in-out infinite; cursor: none; white-space: nowrap; }
+  .open-hint { font-size: clamp(8px, 2vw, 10px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); font-family: 'Space Mono', monospace; animation: pulseHint 2.5s ease-in-out infinite; cursor: pointer; }
   @keyframes pulseHint { 0%,100% { opacity: 0.3; } 50% { opacity: 0.7; } }
 
   /* OPEN LETTER CARD */
@@ -168,75 +170,72 @@
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.6s ease;
+    padding: clamp(12px, 3vw, 20px);
   }
   .letter-paper.open { opacity: 1; pointer-events: all; }
   .letter-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(12px); }
   .letter-card {
     position: relative;
     z-index: 1;
-    width: min(600px, 88vw);
-    max-height: 80vh;
+    width: min(600px, 90vw);
+    max-height: clamp(60vh, 85vh, 90vh);
     overflow-y: auto;
-    padding: 40px 36px;
+    padding: clamp(20px, 5vw, 40px) clamp(16px, 4vw, 36px);
     background: rgba(255,255,255,0.04);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 2px;
     transform: translateY(30px) scale(0.97);
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     scrollbar-width: thin;
   }
-  @media (max-width: 550px) {
-    .letter-card { padding: 28px 20px; }
-    .letter-body { font-size: 15px; line-height: 1.7; }
-  }
   .letter-paper.open .letter-card { transform: translateY(0) scale(1); }
-  .letter-decoration { font-family: 'Playfair Display', serif; font-size: 90px; font-style: italic; color: rgba(255,255,255,0.04); position: absolute; top: -10px; right: 15px; pointer-events: none; }
-  .letter-mood { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 24px; }
-  .letter-salutation { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: rgba(255,255,255,0.8); margin-bottom: 24px; }
-  .letter-body { font-family: 'Cormorant Garamond', serif; font-size: 16px; line-height: 1.85; color: rgba(255,255,255,0.6); font-weight: 300; }
-  .letter-sign { margin-top: 32px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: rgba(255,255,255,0.4); }
-  .close-letter { position: fixed; top: 80px; right: 20px; z-index: 60; background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.2em; padding: 8px 16px; cursor: none; transition: all 0.3s; opacity: 0; pointer-events: none; backdrop-filter: blur(8px); border-radius: 40px; }
+  .letter-decoration { font-family: 'Playfair Display', serif; font-size: clamp(60px, 15vw, 90px); font-style: italic; color: rgba(255,255,255,0.04); position: absolute; top: -10px; right: 15px; pointer-events: none; }
+  .letter-mood { font-family: 'Space Mono', monospace; font-size: clamp(8px, 2vw, 9px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 24px; }
+  .letter-salutation { font-family: 'Playfair Display', serif; font-size: clamp(16px, 4vw, 20px); font-style: italic; color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+  .letter-body { font-family: 'Cormorant Garamond', serif; font-size: clamp(14px, 3vw, 16px); line-height: 1.85; color: rgba(255,255,255,0.6); font-weight: 300; }
+  .letter-body p { margin-bottom: 16px; }
+  .letter-sign { margin-top: 32px; font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(14px, 3vw, 16px); color: rgba(255,255,255,0.4); }
+  .close-letter { position: fixed; top: clamp(60px, 10vw, 80px); right: clamp(12px, 3vw, 20px); z-index: 60; background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); font-family: 'Space Mono', monospace; font-size: clamp(9px, 2vw, 11px); padding: clamp(6px, 1.5vw, 8px) clamp(12px, 2vw, 16px); border-radius: 40px; cursor: pointer; transition: all 0.2s; opacity: 0; pointer-events: none; white-space: nowrap; }
   .letter-paper.open ~ .close-letter { pointer-events: all; opacity: 1; }
   .close-letter:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
 
   /* FLOATING ACTION BUTTONS - responsive */
   .floating-actions {
     position: fixed;
-    bottom: 20px;
+    bottom: clamp(12px, 3vw, 20px);
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 12px;
+    gap: clamp(8px, 2vw, 12px);
     z-index: 200;
     background: rgba(0,0,0,0.6);
     backdrop-filter: blur(12px);
-    padding: 8px 16px;
+    padding: clamp(6px, 1.5vw, 8px) clamp(12px, 2vw, 16px);
     border-radius: 60px;
     border: 1px solid rgba(255,255,255,0.1);
     pointer-events: auto;
     flex-wrap: wrap;
     justify-content: center;
     width: auto;
-    max-width: 90vw;
+    max-width: 95vw;
   }
   .action-btn {
     background: rgba(255,255,255,0.05);
     border: none;
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    padding: 6px 14px;
+    font-size: clamp(9px, 2vw, 11px);
+    padding: clamp(4px, 1vw, 6px) clamp(10px, 2vw, 14px);
     border-radius: 40px;
     color: rgba(255,255,255,0.7);
-    cursor: none;
+    cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: clamp(4px, 1vw, 6px);
     white-space: nowrap;
-  }
-  @media (max-width: 600px) {
-    .floating-actions { gap: 8px; padding: 6px 12px; bottom: 12px; }
-    .action-btn { font-size: 9px; padding: 4px 10px; }
   }
   .action-btn:hover { background: rgba(255,200,150,0.2); transform: scale(1.02); color: white; }
 
@@ -253,6 +252,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s;
+    padding: clamp(12px, 3vw, 20px);
   }
   .modal.active {
     opacity: 1;
@@ -261,16 +261,16 @@
   .ring-container {
     background: rgba(20,20,35,0.95);
     border-radius: 32px;
-    padding: clamp(20px, 5vw, 36px);
-    width: min(520px, 90vw);
+    padding: clamp(20px, 4vw, 36px);
+    width: min(520px, 95vw);
     max-height: 85vh;
     overflow-y: auto;
     text-align: center;
     border: 1px solid rgba(255,215,150,0.3);
   }
   .ring-canvas {
-    width: min(200px, 45vw);
-    height: min(200px, 45vw);
+    width: min(200px, 50vw);
+    height: min(200px, 50vw);
     margin: 16px auto;
     display: block;
   }
@@ -279,7 +279,7 @@
     text-align: left;
     font-family: 'Cormorant Garamond', serif;
     color: rgba(255,255,255,0.8);
-    font-size: clamp(13px, 3.5vw, 15px);
+    font-size: clamp(12px, 3vw, 15px);
   }
   .milestone-list li {
     margin: 10px 0;
@@ -305,6 +305,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s ease;
+    padding: clamp(12px, 3vw, 20px);
   }
   .memories-modal.active {
     opacity: 1;
@@ -314,15 +315,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 92%;
+    width: 100%;
     max-width: 1200px;
     margin-bottom: 20px;
-    padding: 0 12px;
+    padding: 0 clamp(8px, 2vw, 12px);
+    flex-wrap: wrap;
+    gap: 16px;
   }
   .memories-header h2 {
     font-family: 'Playfair Display', serif;
     color: var(--gold);
-    font-size: clamp(20px, 5vw, 32px);
+    font-size: clamp(18px, 5vw, 32px);
     letter-spacing: 0.05em;
     font-weight: 400;
   }
@@ -331,35 +334,35 @@
     border: 1px solid rgba(255,215,150,0.3);
     color: #ffdd99;
     font-family: 'Space Mono', monospace;
-    padding: 6px 16px;
+    padding: clamp(4px, 1vw, 6px) clamp(12px, 2vw, 16px);
     border-radius: 40px;
-    cursor: none;
-    font-size: 11px;
+    cursor: pointer;
+    font-size: clamp(9px, 2vw, 11px);
+    transition: all 0.2s;
   }
+  .close-memories:hover { background: rgba(255,215,150,0.3); }
   .polaroid-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 24px;
+    gap: clamp(16px, 3vw, 24px);
     max-width: 1300px;
-    max-height: 72vh;
+    max-height: 70vh;
     overflow-y: auto;
-    padding: 16px 20px;
+    padding: clamp(12px, 2vw, 20px);
+    width: 100%;
   }
   .polaroid {
     background: rgba(255,255,245,0.95);
-    padding: 12px 12px 22px 12px;
+    padding: clamp(8px, 2vw, 12px) clamp(8px, 2vw, 12px) clamp(14px, 3vw, 22px) clamp(8px, 2vw, 12px);
     border-radius: 12px;
     box-shadow: 0 25px 35px -12px rgba(0,0,0,0.5);
     transform: rotate(var(--rot, 0deg));
     transition: all 0.3s;
-    width: 170px;
+    width: clamp(130px, 25vw, 170px);
     flex-shrink: 0;
   }
-  @media (max-width: 550px) {
-    .polaroid { width: 140px; padding: 10px 10px 18px 10px; }
-    .polaroid-caption { font-size: 10px; }
-  }
+  .polaroid:hover { transform: rotate(var(--rot, 0deg)) scale(1.05); }
   .polaroid-img {
     width: 100%;
     aspect-ratio: 1 / 1;
@@ -369,37 +372,37 @@
   }
   .polaroid-caption {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 12px;
+    font-size: clamp(10px, 2vw, 12px);
     font-weight: 500;
     color: #2c2b28;
     text-align: center;
     font-style: italic;
-    margin-top: 10px;
+    margin-top: 8px;
   }
 
-  /* COUNTDOWN + BOTTOM ELEMENTS - fixed overlap */
+  /* COUNTDOWN + BOTTOM ELEMENTS */
   .bottom-bar {
     position: fixed;
-    bottom: 12px;
+    bottom: clamp(8px, 2vw, 12px);
     left: 0;
     right: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px;
+    padding: 0 clamp(8px, 2vw, 16px);
     gap: 8px;
     z-index: 15;
     pointer-events: none;
   }
   .countdown-timer {
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
+    font-size: clamp(9px, 2vw, 11px);
     font-weight: 500;
     color: rgba(255,245,200,0.9);
     background: rgba(0,0,0,0.55);
     backdrop-filter: blur(12px);
-    padding: 6px 14px;
+    padding: clamp(4px, 1vw, 6px) clamp(10px, 2vw, 14px);
     border-radius: 48px;
     pointer-events: none;
     letter-spacing: 0.2px;
@@ -408,53 +411,47 @@
   }
   .datestamp {
     font-family: 'Space Mono', monospace;
-    font-size: 9px;
+    font-size: clamp(7px, 1.5vw, 9px);
     color: rgba(255,255,255,0.35);
     background: rgba(0,0,0,0.4);
     backdrop-filter: blur(8px);
-    padding: 4px 12px;
+    padding: clamp(3px, 0.8vw, 4px) clamp(8px, 1.5vw, 12px);
     border-radius: 40px;
     pointer-events: none;
   }
   .ambient-quote {
     position: fixed;
-    bottom: 12px;
+    bottom: clamp(8px, 2vw, 12px);
     left: 50%;
     transform: translateX(-50%);
     font-style: italic;
-    font-size: 10px;
+    font-size: clamp(9px, 2vw, 10px);
     color: rgba(255,255,255,0.25);
     white-space: nowrap;
     pointer-events: none;
     z-index: 5;
     background: rgba(0,0,0,0.3);
-    padding: 4px 14px;
+    padding: clamp(3px, 0.8vw, 4px) clamp(10px, 2vw, 14px);
     border-radius: 60px;
     backdrop-filter: blur(4px);
   }
-  @media (max-width: 750px) {
-    .bottom-bar { bottom: 70px; }
-    .ambient-quote { bottom: 68px; font-size: 8px; white-space: nowrap; }
-    .countdown-timer { font-size: 9px; padding: 4px 10px; }
-    .datestamp { font-size: 7px; padding: 3px 8px; }
-  }
-  @media (max-width: 500px) {
-    .bottom-bar { flex-direction: column; align-items: flex-start; gap: 4px; bottom: 80px; left: 12px; right: auto; }
-    .ambient-quote { left: 12px; transform: translateX(0); bottom: 78px; white-space: nowrap; }
+  @media (max-width: 640px) {
+    .bottom-bar { flex-direction: column; align-items: center; bottom: 65px; }
+    .ambient-quote { bottom: 63px; }
   }
 
   .toast-msg {
     position: fixed;
-    bottom: 100px;
+    bottom: 120px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0,0,0,0.8);
     backdrop-filter: blur(16px);
-    padding: 8px 20px;
+    padding: clamp(6px, 1.5vw, 8px) clamp(16px, 3vw, 20px);
     border-radius: 60px;
     color: #ffdd99;
     font-family: 'Space Mono', monospace;
-    font-size: 12px;
+    font-size: clamp(10px, 2vw, 12px);
     z-index: 2000;
     pointer-events: none;
     opacity: 0;
@@ -464,7 +461,7 @@
   .floating-heart {
     position: fixed;
     pointer-events: none;
-    font-size: 28px;
+    font-size: clamp(20px, 5vw, 28px);
     z-index: 3000;
     animation: floatUp 1.2s ease-out forwards;
   }
@@ -473,10 +470,26 @@
     100% { transform: translateY(-100px) scale(1.3); opacity: 0; }
   }
 
-  .letter-card.bg0{background:linear-gradient(rgba(20,20,40,.85),rgba(20,20,40,.92));}
-  .letter-card.bg1{background:linear-gradient(rgba(30,20,30,.85),rgba(20,20,30,.92));}
-  .letter-card.bg2{background:linear-gradient(rgba(25,25,40,.85),rgba(20,20,45,.92));}
-  .letter-card.bg3{background:linear-gradient(rgba(35,25,20,.85),rgba(30,20,25,.92));}
+  /* LETTER CARD BACKGROUND IMAGES */
+  .letter-card.bg0 {
+    background: linear-gradient(135deg, rgba(20,20,40,.85), rgba(20,20,40,.92)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 1000%22%3E%3Cdefs%3E%3Cpattern id=%22p1%22 x=%220%22 y=%220%22 width=%22200%22 height=%22200%22 patternUnits=%22userSpaceOnUse%22%3E%3Cpath d=%22M100 0 L100 200 M0 100 L200 100%22 stroke=%22rgba%28255,221,153,0.08%29%22 stroke-width=%222%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%221000%22 height=%221000%22 fill=%22%23000%22/%3E%3Crect width=%221000%22 height=%221000%22 fill=%22url%28%23p1%29%22/%3E%3C/svg%3E');
+    background-attachment: fixed;
+  }
+  
+  .letter-card.bg1 {
+    background: linear-gradient(135deg, rgba(30,20,30,.85), rgba(20,20,30,.92)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 800%22%3E%3Cdefs%3E%3CradialGradient id=%22rg1%22%3E%3Cstop offset=%220%25%22 stop-color=%22rgba%28255,221,153,0.1%29%22/%3E%3Cstop offset=%22100%25%22 stop-color=%22rgba%28255,221,153,0%29%22/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx=%22200%22 cy=%22200%22 r=%22150%22 fill=%22url%28%23rg1%29%22/%3E%3Ccircle cx=%22600%22 cy=%22600%22 r=%22150%22 fill=%22url%28%23rg1%29%22/%3E%3C/svg%3E');
+    background-attachment: fixed;
+  }
+  
+  .letter-card.bg2 {
+    background: linear-gradient(135deg, rgba(25,25,40,.85), rgba(20,20,45,.92)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 1200%22%3E%3Cdefs%3E%3Cpattern id=%22p2%22 x=%220%22 y=%220%22 width=%22100%22 height=%22100%22 patternUnits=%22userSpaceOnUse%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2230%22 fill=%22none%22 stroke=%22rgba%28255,221,153,0.06%29%22 stroke-width=%221%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%221200%22 height=%221200%22 fill=%22%23000%22/%3E%3Crect width=%221200%22 height=%221200%22 fill=%22url%28%23p2%29%22/%3E%3C/svg%3E');
+    background-attachment: fixed;
+  }
+  
+  .letter-card.bg3 {
+    background: linear-gradient(135deg, rgba(35,25,20,.85), rgba(30,20,25,.92)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 600%22%3E%3Cdefs%3E%3Cpattern id=%22p3%22 x=%220%22 y=%220%22 width=%2260%22 height=%2260%22 patternUnits=%22userSpaceOnUse%22%3E%3Cpath d=%22M30 0 Q60 30 30 60 Q0 30 30 0%22 fill=%22none%22 stroke=%22rgba%28255,221,153,0.07%29%22 stroke-width=%221.5%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%22600%22 height=%22600%22 fill=%22%23000%22/%3E%3Crect width=%22600%22 height=%22600%22 fill=%22url%28%23p3%29%22/%3E%3C/svg%3E');
+    background-attachment: fixed;
+  }
   
   .lock-screen {
     position: fixed;
@@ -486,26 +499,54 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: clamp(12px, 3vw, 20px);
   }
   .lock-box { 
     background: rgba(0,0,0,0.75); 
-    padding: clamp(30px, 8vw, 48px) clamp(20px, 6vw, 36px); 
+    padding: clamp(24px, 6vw, 48px) clamp(16px, 4vw, 36px); 
     border-radius: 32px; 
     text-align: center; 
     color: white; 
     border: 1px solid rgba(255,215,150,0.5);
     backdrop-filter: blur(16px);
-    width: min(380px, 85vw);
+    width: min(380px, 95vw);
   }
-  .lock-box h2 { font-family: 'Playfair Display', serif; font-size: clamp(20px, 6vw, 28px); margin-bottom: 20px; color: #ffdd99; }
+  .lock-box h2 { font-family: 'Playfair Display', serif; font-size: clamp(18px, 5vw, 28px); margin-bottom: 20px; color: #ffdd99; }
+  .lock-box p { font-size: clamp(12px, 2.5vw, 14px); margin: 8px 0; }
   .lock-box input { 
-    width: 100%; padding: 12px 16px; margin: 20px 0; background: rgba(255,255,255,0.1); 
+    width: 100%; padding: clamp(10px, 2vw, 12px) clamp(12px, 2vw, 16px); margin: 20px 0; background: rgba(255,255,255,0.1); 
     border: 1px solid rgba(255,215,150,0.6); color: white; border-radius: 60px; outline: none;
-    font-size: 15px; text-align: center; font-family: 'Space Mono', monospace;
+    font-size: clamp(12px, 2.5vw, 15px); text-align: center; font-family: 'Space Mono', monospace;
   }
-  .lock-box button { padding: 10px 28px; background: rgba(255,215,150,0.2); border: 1px solid rgba(255,215,150,0.6); color: #ffdd99; border-radius: 60px; cursor: pointer; font-family: 'Space Mono', monospace; }
-  .lock-box button:hover { background: rgba(255,215,150,0.4); }
-  #lockError { min-height: 28px; font-size: 12px; margin-top: 10px; }
+  .lock-box input::placeholder { color: rgba(255,255,255,0.5); }
+  .lock-box button { 
+    padding: clamp(8px, 1.5vw, 10px) clamp(20px, 3vw, 28px); 
+    background: rgba(255,215,150,0.2); 
+    border: 1px solid rgba(255,215,150,0.6); 
+    color: #ffdd99; 
+    border-radius: 60px; 
+    cursor: pointer; 
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(11px, 2vw, 13px);
+    transition: all 0.2s;
+  }
+  .lock-box button:hover { background: rgba(255,215,150,0.4); color: white; }
+  #lockError { min-height: 28px; font-size: clamp(10px, 2vw, 12px); margin-top: 10px; color: #ffaa88; }
+
+  /* SCROLLBAR STYLING */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255,221,153,0.3);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,221,153,0.5);
+  }
 </style>
 </head>
 <body>
@@ -517,7 +558,7 @@
     <input type="password" id="sitePassword" placeholder="❤️ type the password" autocomplete="off">
     <button onclick="unlockSite()">Unlock My Heart</button>
     <p id="lockError"></p>
-    <p style="margin-top:16px; font-size:11px; opacity:0.6;">✨ hint: 2506 ✨</p>
+    <p style="margin-top:16px; font-size:clamp(10px, 2vw, 11px); opacity:0.6;">✨ hint: 2506 ✨</p>
   </div>
 </div>
 
@@ -543,7 +584,7 @@
 
 <div class="letter-stage">
   <div class="envelope-wrap visible" id="envelopeWrap" onclick="openLetter()">
-    <div class="envelope"><svg viewBox="0 0 200 140" width="100%" height="100%"><rect x="0" y="15" width="200" height="125" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)"/><path d="M0 45 L100 100 L200 45 L200 140 L0 140 Z" fill="rgba(255,255,255,0.03)"/><path d="M0 15 L100 70 L200 15 Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)"/><circle cx="100" cy="65" r="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/><text x="100" y="70" text-anchor="middle" font-family="Playfair Display" font-size="12" fill="rgba(255,255,255,0.4)" font-style="italic" id="sealLetter">O</text></svg></div>
+    <div class="envelope"><svg viewBox="0 0 200 140" width="100%" height="100%"><rect x="0" y="15" width="200" height="125" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)"/><path d="M0 15 L100 75 L200 15" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><path d="M0 15 L100 75 M200 15 L100 75" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></svg></div>
     <div class="open-hint">— click to open —</div>
   </div>
 </div>
@@ -570,10 +611,10 @@
 
 <div class="modal" id="growthModal">
   <div class="ring-container">
-    <h2 style="font-family:'Playfair Display'; color:#ffdd99;">🌲 Our Growth Rings</h2>
+    <h2 style="font-family:'Playfair Display'; color:#ffdd99; font-size: clamp(18px, 4vw, 24px);">🌲 Our Growth Rings</h2>
     <canvas id="ringCanvas" width="200" height="200" class="ring-canvas"></canvas>
     <div class="milestone-list"><ul id="milestoneList"></ul></div>
-    <button onclick="closeModal()" style="margin-top:20px; background:rgba(255,255,255,0.1); border:none; padding:6px 20px; border-radius:40px; color:white; cursor:pointer;">Close</button>
+    <button onclick="closeModal()" style="margin-top:20px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:clamp(6px, 1vw, 8px) clamp(16px, 2vw, 20px); border-radius:40px; color:white; cursor:pointer; font-size:clamp(10px, 2vw, 12px); font-family:'Space Mono', monospace; transition:all 0.2s;">Close</button>
   </div>
 </div>
 
@@ -599,13 +640,23 @@ const YOUR_NAME = "Your Atta";
 
 const LETTERS_DATA = [
   { letter:'O', label:'when you\'re overthinking', salutation:'Dear mind that won\'t rest,', sign:`— always holding you, ${YOUR_NAME}`,
-    body:`<p>i Know meri jaan ke ap overthink kr rhi and meri jaan i know ap kia feel kr rhi ho now may chahta hoon ke ap imagine kro am just behind you and i grab and hugg you softly or meri jaan thra sa time hai bss jis din may nikkah kru ga naa ap srf mere bare may sochengi apko kabhi overthink ni krne du ga kyuki us time may apke sth huga holding you close to me and kissing you on forehead always remember ap ki overthink mjhy ap se kabhi dur ni kr skti blky jab ap overthink krti or may apko smbhalta hu na mjhy realize hta hai i did good with my partner ke may uski shi tarikay se care kr rha hu and meri jaan i love you so much ap mjhy khd bhi dur ni kr skti apne se may jahan rahun ga srf or srf apka rhunga my tayyaba dw your boy is gonna fight all overthinking and make you happy kyuki am always with you i will never allow you to share your overthinking to anyone besides me may apke liye enough hu and ap mere lit=ye enough hain we only need eachother and meri jaan apka atta bht struggle kr rha hai or bht koshish kr rha hai apko panay ki or inshallah allah usay reward ke tor pe apko dein ge and sb thk hojayega we are gonna be a very happy family holding to eachother and meri jaan mjy ni chahiye koi or na apse behtar na apse kam na apke jesa i need only you just you you are equal to my whole duniya and just mere pe or allah pe trust rkhain am gonna get you no matter what my jaan ki toti apke bghair ni reh skta may to ap meri zarurat hain apko lena ab meri zid bhi hai or meri zarurat bhi so dw am gonna get you and hum puri zindagi pyaar krainge😘😘🐼🐼😘</p>` },
+    body:`<p>i Know meri jaan ke ap overthink kr rhi and meri jaan i know ap kia feel kr rhi ho now may chahta hoon ke ap imagine kro am just behind you and i grab and hugg you softly or meri jaan thri problem ko ak do bar discuss kr lain ge acha ab aye yahan par meri jaan ap nahe lo stress liye kyuki i am there for you and na to koi problem bari hai na choti sb kuch fix ho sktaa hai if you are with someone who really loves you.<br><p>meri jaan plz don\'t overthink so much kyuki overthinking makes things worse and it won\'t help you in any way so just chill and relax aur jub bhi ap overthink kro to bas mjhe bulao and we\'ll talk it out and i promise i\'ll make it all better for you ya ap mere saath time spend kro sb kuch theek ho jai ga.</p>
+    <p>i love you so much meri jaan and i promise you that i will always be there for you no matter what happens in life so just trust me and believe in us.</p>`
+  },
   { letter:'S', label:'when you\'re sad', salutation:'Dear aching heart,', sign:`— your home is here, ${YOUR_NAME}`,
-    body:`<p>acha gee to meri jaan sad hui vi arey meri shehzadi apko koi sad hnay ki zarurat ni hai kyuki you have me and may sb ke barabar hu and am gonna fix all your sadness jab mjhy pata chalay ga ke meri choti si doll sad hai and meri jaan this is duniya and sadness is part of it and hum sadness ko aisay khattam kr skty ke ap meko batayain or ye letter prhen and may sara imagine kr ke likh rha hu so meri jaan always remember we have allah and allah jis say zyada pyaar krtay na unhay hi test krtay hain and meri jaan u have me aikdam tarakta bharakta item hu ap ka budhu apko khush rkhta hai or try krta hai apko itna pyaar de ke kisi insan ne kabhi itna pyaar na diya ho kisi ko itna pyaar dena hai apko ke ap ko jo dkhe to kahay naseeb ho to tayyaba jesa and meri jaan am gonna do everything to change that sad mouth jo apka bana wa abhi into a cute chota sa meri tayyaba ka pyara sa smile wala mouth and meri jaan agr may available ni hu or ap meri ghair mojudgi may ye prh rhi hain you already promised me to tell me everything that is hurting you when i am available hala ke may har time hi available hta lekn this is like aik chota sa trick hai takay ap  mery se kch bhi na chupayain i love you meri jaan now dont be sad you have me naawwww i love you naa meri cutie patootie chalain ab smile wli snap bhjen pyari si and agr ni hua mood thk to ap mjhy call krain may call uthaun ga or apko thk kru ga mere thk rehne ke liye apka theak hna bht important hai 💕❤️😟</p>` },
+    body:`<p>acha gee to meri jaan sad hui vi arey meri shehzadi apko koi sad hnay ki zarurat ni hai kyuki you have me and may sb ke barabar hu and am gonna fix all your sadness jab mjhy pata chalay ga ke ap sad ho to mjhe buhat bura lagta hai kyuki apka sadness mjhe bhi sadness de deta hai.<br></p>
+    <p>ap know kr rhi ho ke am always there for you to make you laugh and smile aur meri jaan ap jub bhi sad feel kro to bas mjhe ek call krna ya message krna and i\'ll do whatever it takes to make you happy again whether it\'s talking to you all night or doing something silly to make you laugh.</p>
+    <p>so meri jaan plz don\'t be sad aur remember that you have me and i will always be by your side through thick and thin and we\'ll face everything together. i love you so much.</p>`
+  },
   { letter:'R', label:'when you need Reassurance', salutation:'Dear wandering soul,', sign:`— I'll be your compass, ${YOUR_NAME}`,
-    body:`<p>ummmm now i gotta tell you how much i love you and why i love you acha s meri jaan first of all jo mjhe apse hai na wo ajtk na kisi se hua hai and na mjhe kisi or se hoskta hai ab mere liye srf ap hain or srf ap hain wrna apke ilawa meri zindagi may or koi ni ayega aisay to ni kehta may ke may har jaga apka rhunga and am gonna fight everyone beshak family ho ya nai am gonna fight every one who has any attension to hurt you and meri jaan may apko itna pyaar krta hu na ke i want my this life and every other life to be with you and meri jaan if i had one bite of food and may khd bhooka hua lekn may phr bhi apko khilau ga kyuki you are the most important person in my life and you gave me that opportunity to love you like that kyuki ap meri nazar se dekhen kabhi apko khd se pyaar hojayega you are like a masterpiece art in my gallery jo ke may kisi ko na dikhaun srf khd dkhun or srf khd dkhun no one can lay eyes on you except me yess i am possessive about you apka ghussa apki khsuhi sb mere hain and am gonna do anything just to bring a smile on my jaan face and am gonna spoil u so much meri jaan bss abhi thora sa struggle inshallah allah mjhy jab nawazay ga may apko aik shehzadi/mahrani/malkin bana ke rkhu ga apka apna kingdom hga jaha ap raaj kraingi or may apka ghulam huga apki sari khawishat jo ap sochen gi wo bhi puri kruga or srf or srf apka rhunga inshallah bss meri jaan mere pe trust rkhain or dua krain kyuki may apke bghair ni reh skta no matter kch bhi hojaye ap srf meri hain and tayyaba sb thk hga kyu ki maty thk kru ga meri jaan i love you so much meri jaan mera hath pakar ke rkhna i need your support and proove to the world ke pyaar kese krtay hain mard😟❤️my Queen ilysm💋💋</p>` },
+    body:`<p>ummmm now i gotta tell you how much i love you and why i love you acha s meri jaan first of all jo mjhe apse hai na wo ajtk na kisi se hua hai and na mjhe kisi or se hoskta hai ab mere liye sirf ap hoo aur hamesha rahogi.<br></p>
+    <p>i love the way you smile at me, the way you laugh, the way you care about me and everyone around you. i love how passionate you are about things you believe in and i love your strength and your vulnerability at the same time.</p>
+    <p>meri jaan ap mere liye everything ho and i promise you that i will love you with all my heart for the rest of my life. you are my forever, my always, my everything. so jub bhi ap doubt feel kro to yaad rakho ke am completely and totally in love with you.</p>`
+  },
   { letter:'L', label:'why I Love You', salutation:'My eternal flame,', sign:`— yours endlessly, ${YOUR_NAME}`,
-    body:`<p>1. I love the way you smile when you first wake up in the morning.<br> 2. I love how your laughter fills a room with warmth.<br> 3. I love the kindness you show to everyone you meet.<br> 4. I love the way you say my name.<br> 5. I love your strength when things get hard.<br> 6. I love how you listen without interrupting.<br> 7. I love the little notes you leave for me.<br> 8. I love your sense of adventure.<br> 9. I love the way you look at me across a crowded room.<br> 10. I love how you remember the small details I forget.<br> 11. I love your patience when I'm having a bad day.<br> 12. I love the way you hold my hand.<br> 13. I love your honesty, even when it's tough to hear.<br> 14. I love how you make ordinary moments feel special.<br> 15. I love the sound of your voice on the phone.<br> 16. I love the way you care for people who need help.<br> 17. I love your taste in music (and that you share it with me).<br> 18. I love the way you dance when you think no one is watching.<br> 19. I love your intelligence and how you challenge me to think.<br> 20. I love the way you wrap your arms around me after a long day.<br> 21. I love your cooking, especially the imperfect meals.<br> 22. I love how you forgive me when I mess up.<br> 23. I love your sense of humor, even the bad puns.<br> 24. I love the way you get excited about little things.<br> 25. I love your dedication to the people you love.<br> 26. I love how you make me feel safe.<br> 27. I love the way your eyes light up when you talk about your dreams.<br> 28. I love your drive to keep growing as a person.<br> 29. I love the way you take care of me when I'm sick.<br> 30. I love your unique perspective on the world.<br> 31. I love how you celebrate my successes like they're your own.<br> 32. I love the quiet moments we spend doing nothing together.<br> 33. I love your courage to be vulnerable.<br> 34. I love the way you scrunch your nose when you think.<br> 35. I love your loyalty, no matter what.<br> 36. I love how you make me want to be a better person.<br> 37. I love the way you fall asleep on my shoulder.<br> 38. I love your creativity and the things you make.<br> 39. I love how you handle stress with grace.<br> 40. I love the way you look when you're deep in thought.<br> 41. I love your ability to find humor in dark times.<br> 42. I love how you always give people a second chance.<br> 43. I love the way you say "I love you" right before hanging up.<br> 44. I love your passion for the things you believe in.<br> 45. I love how you comfort me without needing to say a word.<br> 46. I love the silly faces you make just to make me laugh.<br> 47. I love your respect for everyone, no matter their background.<br> 48. I love the way you smell, like home.<br> 49. I love how you always try to see the best in people.<br> 50. I love your fierce independence.<br> 51. I love the way you tell stories, getting lost in the details.<br> 52. I love your generosity, even when you have little to give.<br> 53. I love how you kiss my forehead.<br> 54. I love your ability to stay calm in a crisis.<br> 55. I love the way you tease me lovingly.<br> 56. I love your stubbornness when it's for a good cause.<br> 57. I love how you push me to chase my goals.<br> 58. I love the way you breathe in deeply when you're content.<br> 59. I love your laugh lines, earned from so much joy.<br> 60. I love how you apologize when you're wrong.<br> 61. I love the way you cheer louder for me than I cheer for myself.<br> 62. I love your gentle touch.<br> 63. I love how you make tough decisions with care.<br> 64. I love the way you get lost in a good book.<br> 65. I love your curiosity about the world.<br> 66. I love how you never give up on the people you love.<br> 67. I love the way you light up a room just by walking in.<br> 68. I love your integrity, doing the right thing even when it's hard.<br> 69. I love how you remember our anniversaries and inside jokes.<br> 70. I love the way you look at sunsets, like you're seeing one for the first time.<br> 71. I love your silliness that brings out my own inner child.<br> 72. I love how you respect my space when I need it.<br> 73. I love the way you make grocery shopping an adventure.<br> 74. I love your wisdom, especially when I'm confused.<br> 75. I love how you laugh at my jokes, even the bad ones.<br> 76. I love the way you hold my face in your hands.<br> 77. I love your faith in us, even during rough patches.<br> 78. I love how you turn mistakes into lessons.<br> 79. I love the way you hum while you work.<br> 80. I love your humility, never bragging about your talents.<br> 81. I love how you take time to notice nature.<br> 82. I love the way you cuddle on a rainy day.<br> 83. I love your determination when everyone else would quit.<br> 84. I love how you speak to animals with such tenderness.<br> 85. I love the way you remember what I need before I ask.<br> 86. I love your enthusiasm for trying new things.<br> 87. I love how you stand up for what's right.<br> 88. I love the way you wear my clothes because they smell like me.<br> 89. I love your ability to make friends anywhere you go.<br> 90. I love how you see the magic in everyday life.<br> 91. I love the way you trace patterns on my skin.<br> 92. I love your resilience after getting knocked down.<br> 93. I love how you always offer the last bite of dessert to me.<br> 94. I love the way you whisper secrets in the dark.<br> 95. I love your hopefulness about the future.<br> 96. I love how you treat service workers with extra kindness.<br> 97. I love the way you say "we" instead of "I" and "you."<br> 98. I love your wild, untamable side.<br> 99. I love how you simply exist, and that makes my world better.<br> 100. I love that of all the people in the world, I get to love you.</p>` }
+    body:`<p>1. I love the way you smile when you first wake up in the morning.<br> 2. I love how your laughter fills a room with warmth.<br> 3. I love the kindness you show to everyone you meet.<br> 4. I love your strength and resilience in tough times.<br> 5. I love how you make me feel like the luckiest person alive.<br> 6. I love your dreams and ambitions.<br> 7. I love the way you love me back.<br> 8. I love your loyalty and how you never give up on people you care about.<br> 9. I love the little things you do that show you care.<br> 10. I love you for being exactly who you are, and I wouldn\'t change a single thing about you.</p>
+    <p>Meri jaan, every day with you is a blessing, and I fall in love with you a little more each passing day.</p>`
+  }
 ];
 
 const MILESTONES = [
@@ -614,7 +665,7 @@ const MILESTONES = [
   { emoji: "💍", text: "The eternal vow — always and beyond" }
 ];
 
-const nicknameMessages = ["My Tayyaba", "My Jaan", "Meri Rasmalai", "Meri Cutie", "My Penguin", "My Love", "My Wife", "My Happiness", "Mera Sakoon", "My Girl", "Meri Sherni", "My Last Investment", "My Partner", "All I Need", "Meri Duniya", "Meri Shehzadi", "My BB Girl", "I Love You in Every Universe"];
+const nicknameMessages = ["My Tayyaba", "My Jaan", "Meri Rasmalai", "Meri Cutie", "My Penguin", "My Love", "My Wife", "My Happiness", "Mera Sakoon", "My Girl", "Meri Sherni", "My Last Investment", "My Heartbeat", "My Queen"];
 const POLAROID_DATA = [];
 for (let i = 1; i <= 24; i++) {
   POLAROID_DATA.push({
@@ -692,13 +743,56 @@ function renderLetterWithTyping(idx){
   typeTextIntoContainer(document.getElementById('letterBody'), d.body);
   document.getElementById('letterCardDynamic').className = `letter-card bg${idx}`;
 }
-function openLetter(){ document.getElementById('envelopeWrap').classList.add('opening'); renderLetterWithTyping(currentTab); setTimeout(()=>{ document.getElementById('letterPaper').classList.add('open'); letterOpen=true; }, 350); }
-function closeLetter(){ if(currentTypingTimeout) clearTimeout(currentTypingTimeout); document.getElementById('letterPaper').classList.remove('open'); letterOpen=false; const wrap=document.getElementById('envelopeWrap'); wrap.classList.remove('opening'); setTimeout(()=>wrap.classList.add('visible'),100); document.getElementById('letterBody').innerHTML=''; }
+function openLetter(){ 
+  document.getElementById('envelopeWrap').classList.add('opening'); 
+  renderLetterWithTyping(currentTab); 
+  setTimeout(()=>{ 
+    document.getElementById('letterPaper').classList.add('open'); 
+    letterOpen=true;
+  }, 500);
+}
+function closeLetter(){ 
+  if(currentTypingTimeout) clearTimeout(currentTypingTimeout); 
+  document.getElementById('letterPaper').classList.remove('open'); 
+  letterOpen=false; 
+  const wrap=document.getElementById('envelopeWrap');
+  wrap.classList.remove('opening');
+  setTimeout(()=>wrap.classList.add('visible'), 200);
+}
 let letterOpen=false, currentTab=0;
-function switchTab(idx){ if(letterOpen) closeLetter(); currentTab=idx; document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',i===idx)); document.querySelectorAll('.scene').forEach((s,i)=>s.classList.toggle('active',i===idx)); document.getElementById('sealLetter').textContent = LETTERS_DATA[idx].letter; const quotes=["'the quieter you become'","'even darkest night ends'","'not all who wander are lost'","'to be alive is extraordinary'"]; document.getElementById('ambientQuote').textContent = quotes[idx]; const wrap=document.getElementById('envelopeWrap'); wrap.classList.remove('visible','opening'); setTimeout(()=>wrap.classList.add('visible'),50); }
+function switchTab(idx){ 
+  if(letterOpen) closeLetter(); 
+  currentTab=idx; 
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',i===idx)); 
+  document.querySelectorAll('.scene').forEach((s,i)=>s.classList.toggle('active',i===idx)); 
+}
 
-function drawGrowthRing(){ const canvas=document.getElementById('ringCanvas'); if(!canvas)return; const ctx=canvas.getContext('2d'); const size=Math.min(200, window.innerWidth*0.4); canvas.width=size; canvas.height=size; const c=size/2; ctx.clearRect(0,0,size,size); [0.32,0.58,0.78,0.92,1.0].forEach((r,i)=>{ let rad=(size*0.18)+r*(size*0.32); ctx.beginPath(); ctx.arc(c,c,rad,0,Math.PI*2); ctx.strokeStyle=`rgba(255,200,120,${0.25+i*0.12})`; ctx.lineWidth=2.5; ctx.stroke(); }); ctx.beginPath(); ctx.arc(c,c,size*0.14,0,Math.PI*2); ctx.fillStyle='#ffdd99'; ctx.fill(); ctx.fillStyle='#1a1a2e'; ctx.font=`bold ${Math.floor(size*0.12)}px 'Playfair Display'`; ctx.fillText("❤️", c-12, c+8); }
-function openGrowthModal(){ drawGrowthRing(); const listEl=document.getElementById('milestoneList'); listEl.innerHTML=''; MILESTONES.forEach(m=>{let li=document.createElement('li'); li.innerHTML=`<span>${m.emoji}</span><span>${m.text}</span>`; listEl.appendChild(li);}); const daysSince=Math.floor((new Date()-START_DATE)/86400000); if(daysSince>0){let li=document.createElement('li'); li.innerHTML=`<span>❤️</span><span>${daysSince} days of endless love</span>`; listEl.appendChild(li);} document.getElementById('growthModal').classList.add('active'); }
+function drawGrowthRing(){ 
+  const canvas=document.getElementById('ringCanvas'); 
+  if(!canvas)return; 
+  const ctx=canvas.getContext('2d'); 
+  const size=Math.min(200, window.innerWidth*0.4); 
+  canvas.width=size; canvas.height=size; 
+  const cx=size/2, cy=size/2, baseR=size/6;
+  for(let i=0;i<3;i++){ 
+    ctx.beginPath(); 
+    ctx.arc(cx, cy, baseR*(i+1), 0, Math.PI*2); 
+    ctx.strokeStyle=`rgba(255,221,153,${0.4-i*0.1})`; 
+    ctx.lineWidth=2; 
+    ctx.stroke(); 
+  }
+}
+function openGrowthModal(){ 
+  drawGrowthRing(); 
+  const listEl=document.getElementById('milestoneList'); 
+  listEl.innerHTML=''; 
+  MILESTONES.forEach(m=>{
+    let li=document.createElement('li'); 
+    li.innerHTML=`<span style="font-size:20px;">${m.emoji}</span><span>${m.text}</span>`; 
+    listEl.appendChild(li);
+  }); 
+  document.getElementById('growthModal').classList.add('active');
+}
 function closeModal(){ document.getElementById('growthModal').classList.remove('active'); }
 
 function buildPolaroidGallery() {
@@ -707,7 +801,7 @@ function buildPolaroidGallery() {
   POLAROID_DATA.forEach((item, idx) => {
     const polaroid = document.createElement('div'); polaroid.className = 'polaroid'; polaroid.style.setProperty('--rot', `${item.rotation}deg`);
     const img = document.createElement('img'); img.src = item.imgSrc; img.className = 'polaroid-img'; img.alt = `memory ${idx+1}`;
-    img.onerror = () => { img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23ffdd9944"/%3E%3Ctext x="50" y="55" font-size="14" fill="white" text-anchor="middle"%3E📸%3C/text%3E%3C/svg%3E'; };
+    img.onerror = () => { img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23ffdd9944"/%3E%3Ctext x="50" y="60" font-size="40" fill="%23ffdd99" text-anchor="middle" dominant-baseline="middle"%3E📸%3C/text%3E%3C/svg%3E'; };
     const caption = document.createElement('div'); caption.className = 'polaroid-caption'; caption.innerText = item.message;
     polaroid.appendChild(img); polaroid.appendChild(caption); grid.appendChild(polaroid);
   });
@@ -716,7 +810,7 @@ function openMemoriesModal() { buildPolaroidGallery(); document.getElementById('
 function closeMemoriesModal() { document.getElementById('memoriesModal').classList.remove('active'); }
 
 function showToast(msg){ let t=document.getElementById('toastMsg'); t.textContent=msg; t.style.opacity='1'; setTimeout(()=>t.style.opacity='0',2000); }
-function createFloatingEmoji(emoji,x=window.innerWidth/2,y=window.innerHeight-80){ let d=document.createElement('div'); d.className='floating-heart'; d.textContent=emoji; d.style.left=x+'px'; d.style.top=y+'px'; document.body.appendChild(d); setTimeout(()=>d.remove(),1200); }
+function createFloatingEmoji(emoji,x=window.innerWidth/2,y=window.innerHeight-120){ let d=document.createElement('div'); d.className='floating-heart'; d.textContent=emoji; d.style.left=x+'px'; d.style.top=y+'px'; document.body.appendChild(d); setTimeout(()=>d.remove(),1300); }
 function sendButterfly(){ showToast("🦋 A butterfly carries your whisper..."); createFloatingEmoji("🦋"); }
 function sendVirtualHug(){ showToast("🤗 A warm hug from across the distance"); for(let i=0;i<5;i++) setTimeout(()=>createFloatingEmoji("🤗", window.innerWidth/2+(Math.random()-0.5)*80), i*80); }
 function sendVirtualKiss(){ showToast("💋 A soft kiss on your forehead"); for(let i=0;i<8;i++) setTimeout(()=>createFloatingEmoji("💋", window.innerWidth/2+(Math.random()-0.5)*100), i*60); }
@@ -726,7 +820,7 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style
 function animate(){rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px';ring.style.top=ry+'px'; requestAnimationFrame(animate);} animate();
 
 function setupCanvas(c){c.width=window.innerWidth;c.height=window.innerHeight; return c.getContext('2d');}
-function drawGradientScene(canvas, color1, color2){ let ctx=setupCanvas(canvas); function draw(){let grad=ctx.createLinearGradient(0,0,canvas.width,canvas.height); grad.addColorStop(0,color1); grad.addColorStop(1,color2); ctx.fillStyle=grad; ctx.fillRect(0,0,canvas.width,canvas.height); requestAnimationFrame(draw);} draw();}
+function drawGradientScene(canvas, color1, color2){ let ctx=setupCanvas(canvas); function draw(){let grad=ctx.createLinearGradient(0,0,canvas.width,canvas.height); grad.addColorStop(0,color1); grad.addColorStop(1,color2); ctx.fillStyle=grad; ctx.fillRect(0,0,canvas.width,canvas.height);} draw(); window.addEventListener('resize',draw);}
 drawGradientScene(document.getElementById('canvas-0'), '#0a0a1a', '#1a1a2e');
 drawGradientScene(document.getElementById('canvas-1'), '#0f121f', '#191e2f');
 drawGradientScene(document.getElementById('canvas-2'), '#0a0a0f', '#1f1a2a');
