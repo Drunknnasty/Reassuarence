@@ -64,24 +64,26 @@
   .scene.active { opacity: 1; }
   .scene-canvas { width: 100%; height: 100%; display: block; }
 
-  /* NAVBAR */
+  /* RESPONSIVE NAVBAR */
   .navbar {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
     display: flex;
     align-items: stretch;
-    height: 64px;
+    height: auto;
+    min-height: 64px;
     border-bottom: 1px solid rgba(255,255,255,0.06);
     backdrop-filter: blur(20px);
     background: rgba(0,0,0,0.4);
+    flex-wrap: wrap;
   }
   .nav-brand {
-    padding: 0 32px;
+    padding: 0 24px;
     display: flex;
     align-items: center;
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     color: rgba(255,255,255,0.3);
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -91,9 +93,11 @@
   .nav-tabs {
     display: flex;
     flex: 1;
+    flex-wrap: wrap;
   }
   .nav-tab {
     flex: 1;
+    min-width: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,17 +110,18 @@
     font-family: 'Cormorant Garamond', serif;
     transition: color 0.4s;
     border-right: 1px solid rgba(255,255,255,0.04);
-    padding: 0 8px;
+    padding: 12px 6px;
+    text-align: center;
   }
   .nav-tab.active { color: rgba(255,255,255,0.9); }
-  .nav-tab .tab-label { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; font-family: 'Space Mono', monospace; opacity: 0.6; }
+  .nav-tab .tab-label { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Space Mono', monospace; opacity: 0.6; }
   .nav-tab.active .tab-label { opacity: 1; }
-  .nav-tab .tab-emotion { font-size: 14px; font-style: italic; font-weight: 300; }
+  .nav-tab .tab-emotion { font-size: 13px; font-style: italic; font-weight: 300; }
   .nav-tab .tab-indicator {
     position: absolute;
     bottom: 0; left: 50%;
     transform: translateX(-50%) scaleX(0);
-    width: 80%;
+    width: 60%;
     height: 1px;
     background: rgba(255,255,255,0.6);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -146,9 +151,10 @@
   }
   .envelope-wrap.visible { opacity: 1; transform: translateY(0); }
   .envelope-wrap.opening { opacity: 0; transform: translateY(-40px) scale(0.95); }
-  .envelope { width: 220px; height: 160px; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6)); transition: transform 0.3s; cursor: none; }
+  .envelope { width: 200px; height: 140px; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6)); transition: transform 0.3s; cursor: none; }
+  @media (max-width: 550px) { .envelope { width: 160px; height: 112px; } }
   .envelope:hover { transform: scale(1.03) rotateZ(1deg); }
-  .open-hint { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.3); font-family: 'Space Mono', monospace; animation: pulseHint 2.5s ease-in-out infinite; cursor: none; }
+  .open-hint { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); font-family: 'Space Mono', monospace; animation: pulseHint 2.5s ease-in-out infinite; cursor: none; white-space: nowrap; }
   @keyframes pulseHint { 0%,100% { opacity: 0.3; } 50% { opacity: 0.7; } }
 
   /* OPEN LETTER CARD */
@@ -168,10 +174,10 @@
   .letter-card {
     position: relative;
     z-index: 1;
-    width: min(640px, 90vw);
+    width: min(600px, 88vw);
     max-height: 80vh;
     overflow-y: auto;
-    padding: 60px 64px;
+    padding: 40px 36px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 2px;
@@ -179,49 +185,62 @@
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     scrollbar-width: thin;
   }
+  @media (max-width: 550px) {
+    .letter-card { padding: 28px 20px; }
+    .letter-body { font-size: 15px; line-height: 1.7; }
+  }
   .letter-paper.open .letter-card { transform: translateY(0) scale(1); }
-  .letter-decoration { font-family: 'Playfair Display', serif; font-size: 120px; font-style: italic; color: rgba(255,255,255,0.04); position: absolute; top: -20px; right: 20px; pointer-events: none; }
-  .letter-mood { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 32px; }
-  .letter-salutation { font-family: 'Playfair Display', serif; font-size: 22px; font-style: italic; color: rgba(255,255,255,0.8); margin-bottom: 28px; }
-  .letter-body { font-family: 'Cormorant Garamond', serif; font-size: 17px; line-height: 1.9; color: rgba(255,255,255,0.6); font-weight: 300; }
-  .letter-sign { margin-top: 40px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 18px; color: rgba(255,255,255,0.4); }
-  .close-letter { position: fixed; top: 80px; right: 40px; z-index: 60; background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.2em; padding: 10px 18px; cursor: none; transition: all 0.3s; opacity: 0; pointer-events: none; }
+  .letter-decoration { font-family: 'Playfair Display', serif; font-size: 90px; font-style: italic; color: rgba(255,255,255,0.04); position: absolute; top: -10px; right: 15px; pointer-events: none; }
+  .letter-mood { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 24px; }
+  .letter-salutation { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+  .letter-body { font-family: 'Cormorant Garamond', serif; font-size: 16px; line-height: 1.85; color: rgba(255,255,255,0.6); font-weight: 300; }
+  .letter-sign { margin-top: 32px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: rgba(255,255,255,0.4); }
+  .close-letter { position: fixed; top: 80px; right: 20px; z-index: 60; background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.2em; padding: 8px 16px; cursor: none; transition: all 0.3s; opacity: 0; pointer-events: none; backdrop-filter: blur(8px); border-radius: 40px; }
   .letter-paper.open ~ .close-letter { pointer-events: all; opacity: 1; }
   .close-letter:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
 
-  /* FLOATING ACTION BUTTONS */
+  /* FLOATING ACTION BUTTONS - responsive */
   .floating-actions {
     position: fixed;
-    bottom: 24px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 20px;
+    gap: 12px;
     z-index: 200;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
     backdrop-filter: blur(12px);
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 60px;
     border: 1px solid rgba(255,255,255,0.1);
     pointer-events: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    max-width: 90vw;
   }
   .action-btn {
     background: rgba(255,255,255,0.05);
     border: none;
     font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    padding: 8px 18px;
+    font-size: 11px;
+    padding: 6px 14px;
     border-radius: 40px;
     color: rgba(255,255,255,0.7);
     cursor: none;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  @media (max-width: 600px) {
+    .floating-actions { gap: 8px; padding: 6px 12px; bottom: 12px; }
+    .action-btn { font-size: 9px; padding: 4px 10px; }
   }
   .action-btn:hover { background: rgba(255,200,150,0.2); transform: scale(1.02); color: white; }
 
-  /* GROWTH RING MODAL - FULLY RESPONSIVE */
+  /* GROWTH RING MODAL */
   .modal {
     position: fixed;
     inset: 0;
@@ -241,47 +260,43 @@
   }
   .ring-container {
     background: rgba(20,20,35,0.95);
-    border-radius: 48px;
-    padding: clamp(24px, 5vw, 40px);
-    width: min(550px, 90vw);
+    border-radius: 32px;
+    padding: clamp(20px, 5vw, 36px);
+    width: min(520px, 90vw);
     max-height: 85vh;
     overflow-y: auto;
     text-align: center;
     border: 1px solid rgba(255,215,150,0.3);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   }
   .ring-canvas {
-    width: min(220px, 50vw);
-    height: min(220px, 50vw);
-    margin: 20px auto;
+    width: min(200px, 45vw);
+    height: min(200px, 45vw);
+    margin: 16px auto;
     display: block;
-    max-width: 220px;
-    max-height: 220px;
   }
   .milestone-list {
-    margin-top: 24px;
+    margin-top: 20px;
     text-align: left;
     font-family: 'Cormorant Garamond', serif;
     color: rgba(255,255,255,0.8);
-    font-size: clamp(14px, 4vw, 16px);
+    font-size: clamp(13px, 3.5vw, 15px);
   }
   .milestone-list li {
-    margin: 12px 0;
+    margin: 10px 0;
     list-style: none;
     border-bottom: 1px dashed rgba(255,255,255,0.1);
-    padding: 8px 0;
+    padding: 6px 0;
     display: flex;
     align-items: center;
     gap: 12px;
   }
-  .milestone-list li span:first-child { font-size: 22px; }
 
   /* MEMORIES POLAROID GALLERY */
   .memories-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.92);
-    backdrop-filter: blur(16px);
+    background: rgba(0,0,0,0.94);
+    backdrop-filter: blur(20px);
     z-index: 1100;
     display: flex;
     flex-direction: column;
@@ -299,58 +314,51 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
+    width: 92%;
     max-width: 1200px;
-    margin-bottom: 30px;
-    padding: 0 20px;
+    margin-bottom: 20px;
+    padding: 0 12px;
   }
   .memories-header h2 {
     font-family: 'Playfair Display', serif;
     color: var(--gold);
-    font-size: clamp(24px, 5vw, 36px);
-    letter-spacing: 0.1em;
+    font-size: clamp(20px, 5vw, 32px);
+    letter-spacing: 0.05em;
     font-weight: 400;
-    text-shadow: 0 0 10px rgba(255,220,150,0.3);
   }
   .close-memories {
     background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,215,150,0.3);
     color: #ffdd99;
     font-family: 'Space Mono', monospace;
-    padding: 8px 20px;
+    padding: 6px 16px;
     border-radius: 40px;
     cursor: none;
-    transition: all 0.3s;
-  }
-  .close-memories:hover {
-    background: rgba(255,215,150,0.2);
-    transform: scale(1.02);
+    font-size: 11px;
   }
   .polaroid-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 32px;
+    gap: 24px;
     max-width: 1300px;
-    max-height: 75vh;
+    max-height: 72vh;
     overflow-y: auto;
-    padding: 20px 30px;
-    scrollbar-width: thin;
+    padding: 16px 20px;
   }
   .polaroid {
     background: rgba(255,255,245,0.95);
-    padding: 16px 16px 28px 16px;
+    padding: 12px 12px 22px 12px;
     border-radius: 12px;
-    box-shadow: 0 25px 35px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,200,0.2);
+    box-shadow: 0 25px 35px -12px rgba(0,0,0,0.5);
     transform: rotate(var(--rot, 0deg));
-    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    width: 200px;
-    backdrop-filter: blur(2px);
-    cursor: none;
+    transition: all 0.3s;
+    width: 170px;
+    flex-shrink: 0;
   }
-  .polaroid:hover {
-    transform: rotate(0deg) translateY(-12px) scale(1.02);
-    box-shadow: 0 30px 40px -12px black;
+  @media (max-width: 550px) {
+    .polaroid { width: 140px; padding: 10px 10px 18px 10px; }
+    .polaroid-caption { font-size: 10px; }
   }
   .polaroid-img {
     width: 100%;
@@ -358,35 +366,83 @@
     object-fit: cover;
     border-radius: 8px;
     background: #f0efe7;
-    display: block;
-    margin-bottom: 14px;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
   }
   .polaroid-caption {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     color: #2c2b28;
     text-align: center;
     font-style: italic;
-    letter-spacing: 0.3px;
-    padding: 4px 6px;
-    background: rgba(0,0,0,0.02);
-    border-radius: 30px;
-  }
-  .polaroid-grid::-webkit-scrollbar {
-    width: 6px;
-  }
-  .polaroid-grid::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.05);
-    border-radius: 10px;
-  }
-  .polaroid-grid::-webkit-scrollbar-thumb {
-    background: var(--gold);
-    border-radius: 10px;
+    margin-top: 10px;
   }
 
-  /* TOAST & FLOATING EFFECTS */
+  /* COUNTDOWN + BOTTOM ELEMENTS - fixed overlap */
+  .bottom-bar {
+    position: fixed;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    gap: 8px;
+    z-index: 15;
+    pointer-events: none;
+  }
+  .countdown-timer {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,245,200,0.9);
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(12px);
+    padding: 6px 14px;
+    border-radius: 48px;
+    pointer-events: none;
+    letter-spacing: 0.2px;
+    border: 1px solid rgba(255,215,150,0.35);
+    white-space: nowrap;
+  }
+  .datestamp {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: rgba(255,255,255,0.35);
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    padding: 4px 12px;
+    border-radius: 40px;
+    pointer-events: none;
+  }
+  .ambient-quote {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-style: italic;
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 5;
+    background: rgba(0,0,0,0.3);
+    padding: 4px 14px;
+    border-radius: 60px;
+    backdrop-filter: blur(4px);
+  }
+  @media (max-width: 750px) {
+    .bottom-bar { bottom: 70px; }
+    .ambient-quote { bottom: 68px; font-size: 8px; white-space: nowrap; }
+    .countdown-timer { font-size: 9px; padding: 4px 10px; }
+    .datestamp { font-size: 7px; padding: 3px 8px; }
+  }
+  @media (max-width: 500px) {
+    .bottom-bar { flex-direction: column; align-items: flex-start; gap: 4px; bottom: 80px; left: 12px; right: auto; }
+    .ambient-quote { left: 12px; transform: translateX(0); bottom: 78px; white-space: nowrap; }
+  }
+
   .toast-msg {
     position: fixed;
     bottom: 100px;
@@ -394,125 +450,66 @@
     transform: translateX(-50%);
     background: rgba(0,0,0,0.8);
     backdrop-filter: blur(16px);
-    padding: 12px 28px;
+    padding: 8px 20px;
     border-radius: 60px;
     color: #ffdd99;
     font-family: 'Space Mono', monospace;
-    font-size: 14px;
+    font-size: 12px;
     z-index: 2000;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.4s;
     white-space: nowrap;
-    border-left: 3px solid #ffaa66;
   }
   .floating-heart {
     position: fixed;
     pointer-events: none;
-    font-size: 32px;
+    font-size: 28px;
     z-index: 3000;
     animation: floatUp 1.2s ease-out forwards;
   }
   @keyframes floatUp {
     0% { transform: translateY(0) scale(0.5); opacity: 1; }
-    100% { transform: translateY(-120px) scale(1.5); opacity: 0; }
+    100% { transform: translateY(-100px) scale(1.3); opacity: 0; }
   }
 
-  /* FIXED COUNTDOWN STYLES — properly aligned, clear */
-  .countdown-timer {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    font-weight: 500;
-    color: rgba(255,245,200,0.9);
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(12px);
-    padding: 10px 20px;
-    border-radius: 48px;
-    z-index: 5;
-    pointer-events: none;
-    letter-spacing: 0.3px;
-    border: 1px solid rgba(255,215,150,0.35);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
-    white-space: nowrap;
-  }
-  .countdown-timer span { color: #ffdd99; font-weight: bold; margin: 0 2px; }
-  .countdown-timer .time-unit { font-weight: 700; color: #ffcc88; }
+  .letter-card.bg0{background:linear-gradient(rgba(20,20,40,.85),rgba(20,20,40,.92));}
+  .letter-card.bg1{background:linear-gradient(rgba(30,20,30,.85),rgba(20,20,30,.92));}
+  .letter-card.bg2{background:linear-gradient(rgba(25,25,40,.85),rgba(20,20,45,.92));}
+  .letter-card.bg3{background:linear-gradient(rgba(35,25,20,.85),rgba(30,20,25,.92));}
   
-  .ambient-quote { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); font-style: italic; font-size: 12px; color: rgba(255,255,255,0.2); white-space: nowrap; pointer-events: none; z-index: 5; background: rgba(0,0,0,0.3); padding: 4px 16px; border-radius: 60px; backdrop-filter: blur(4px); }
-  .datestamp { position: fixed; bottom: 24px; right: 24px; font-family: 'Space Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.25); z-index: 5; background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 40px; backdrop-filter: blur(4px); }
-
-  .letter-card.bg0{background:linear-gradient(rgba(20,20,40,.82),rgba(20,20,40,.9)),url('assets/bg1.jpg') center/cover;}
-  .letter-card.bg1{background:linear-gradient(rgba(20,20,20,.82),rgba(20,20,20,.9)),url('assets/bg2.jpg') center/cover;}
-  .letter-card.bg2{background:linear-gradient(rgba(20,0,20,.82),rgba(20,0,20,.9)),url('assets/bg3.jpg') center/cover;}
-  .letter-card.bg3{background:linear-gradient(rgba(0,20,0,.82),rgba(0,20,0,.9)),url('assets/bg4.jpg') center/cover;}
-  
-  /* LOCK SCREEN */
   .lock-screen {
     position: fixed;
     inset: 0;
     z-index: 10000;
-    background: linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,0.97)), radial-gradient(circle at 30% 20%, rgba(255,200,100,0.08) 0%, transparent 60%);
+    background: radial-gradient(circle at center, #0f0f1f, #03030c);
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .lock-box { 
-    background: rgba(0,0,0,0.7); 
-    padding: clamp(30px, 8vw, 50px) clamp(20px, 6vw, 40px); 
+    background: rgba(0,0,0,0.75); 
+    padding: clamp(30px, 8vw, 48px) clamp(20px, 6vw, 36px); 
     border-radius: 32px; 
     text-align: center; 
     color: white; 
-    border: 1px solid rgba(255,215,150,0.4);
-    backdrop-filter: blur(12px);
-    width: min(400px, 85vw);
+    border: 1px solid rgba(255,215,150,0.5);
+    backdrop-filter: blur(16px);
+    width: min(380px, 85vw);
   }
-  .lock-box h2 { font-family: 'Playfair Display', serif; font-size: clamp(22px, 6vw, 28px); margin-bottom: 20px; color: #ffdd99; letter-spacing: 2px; }
+  .lock-box h2 { font-family: 'Playfair Display', serif; font-size: clamp(20px, 6vw, 28px); margin-bottom: 20px; color: #ffdd99; }
   .lock-box input { 
-    width: 100%; 
-    padding: 14px 20px; 
-    margin: 20px 0; 
-    background: rgba(255,255,255,0.1); 
-    border: 1px solid rgba(255,215,150,0.5); 
-    color: white; 
-    border-radius: 60px; 
-    outline: none;
-    font-size: 16px;
-    text-align: center;
-    font-family: 'Space Mono', monospace;
+    width: 100%; padding: 12px 16px; margin: 20px 0; background: rgba(255,255,255,0.1); 
+    border: 1px solid rgba(255,215,150,0.6); color: white; border-radius: 60px; outline: none;
+    font-size: 15px; text-align: center; font-family: 'Space Mono', monospace;
   }
-  .lock-box button { 
-    padding: 12px 32px; 
-    background: rgba(255,215,150,0.2); 
-    border: 1px solid rgba(255,215,150,0.5); 
-    color: #ffdd99; 
-    border-radius: 60px; 
-    cursor: pointer;
-    font-family: 'Space Mono', monospace;
-    font-size: 14px;
-    transition: all 0.3s;
-  }
-  .lock-box button:hover { background: rgba(255,215,150,0.4); color: white; transform: scale(0.98); }
-  #lockError { min-height: 32px; }
-  
-  @media (max-width: 750px) { 
-    .floating-actions { gap: 8px; padding: 6px 12px; } 
-    .action-btn { padding: 4px 12px; font-size: 10px; } 
-    .nav-brand { display: none; } 
-    .ambient-quote { display: none; }
-    .letter-card { padding: 30px 24px; }
-    .polaroid { width: 150px; }
-    .polaroid-caption { font-size: 10px; }
-    .countdown-timer { font-size: 10px; padding: 6px 12px; left: 12px; bottom: 12px; white-space: nowrap; }
-    .datestamp { font-size: 8px; right: 12px; bottom: 12px; }
-  }
+  .lock-box button { padding: 10px 28px; background: rgba(255,215,150,0.2); border: 1px solid rgba(255,215,150,0.6); color: #ffdd99; border-radius: 60px; cursor: pointer; font-family: 'Space Mono', monospace; }
+  .lock-box button:hover { background: rgba(255,215,150,0.4); }
+  #lockError { min-height: 28px; font-size: 12px; margin-top: 10px; }
 </style>
 </head>
 <body>
 
-<!-- LOCK SCREEN -->
 <div class="lock-screen" id="lockScreen">
   <div class="lock-box">
     <h2>💌 My Eternal Vows</h2>
@@ -520,15 +517,13 @@
     <input type="password" id="sitePassword" placeholder="❤️ type the password" autocomplete="off">
     <button onclick="unlockSite()">Unlock My Heart</button>
     <p id="lockError"></p>
-    <p style="margin-top:20px; font-size:11px; opacity:0.6;">✨ hint: 2506 ✨</p>
+    <p style="margin-top:16px; font-size:11px; opacity:0.6;">✨ hint: 2506 ✨</p>
   </div>
 </div>
 
-<!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- BACKGROUND SCENES -->
 <div class="universe">
   <div class="scene active" id="scene-0"><canvas class="scene-canvas" id="canvas-0"></canvas></div>
   <div class="scene" id="scene-1"><canvas class="scene-canvas" id="canvas-1"></canvas></div>
@@ -536,7 +531,6 @@
   <div class="scene" id="scene-3"><canvas class="scene-canvas" id="canvas-3"></canvas></div>
 </div>
 
-<!-- NAVIGATION (4 tabs, removed extra) -->
 <nav class="navbar">
   <div class="nav-brand">Eternal Letters</div>
   <div class="nav-tabs">
@@ -547,15 +541,13 @@
   </div>
 </nav>
 
-<!-- ENVELOPE -->
 <div class="letter-stage">
   <div class="envelope-wrap visible" id="envelopeWrap" onclick="openLetter()">
-    <div class="envelope"><svg viewBox="0 0 220 160"><rect x="0" y="20" width="220" height="140" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)"/><path d="M0 60 L110 115 L220 60 L220 160 L0 160 Z" fill="rgba(255,255,255,0.03)"/><path d="M0 20 L110 80 L220 20 Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)"/><circle cx="110" cy="80" r="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/><text x="110" y="85" text-anchor="middle" font-family="Playfair Display" font-size="12" fill="rgba(255,255,255,0.4)" font-style="italic" id="sealLetter">O</text></svg></div>
+    <div class="envelope"><svg viewBox="0 0 200 140" width="100%" height="100%"><rect x="0" y="15" width="200" height="125" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)"/><path d="M0 45 L100 100 L200 45 L200 140 L0 140 Z" fill="rgba(255,255,255,0.03)"/><path d="M0 15 L100 70 L200 15 Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)"/><circle cx="100" cy="65" r="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/><text x="100" y="70" text-anchor="middle" font-family="Playfair Display" font-size="12" fill="rgba(255,255,255,0.4)" font-style="italic" id="sealLetter">O</text></svg></div>
     <div class="open-hint">— click to open —</div>
   </div>
 </div>
 
-<!-- LETTER MODAL -->
 <div class="letter-paper" id="letterPaper">
   <div class="letter-backdrop" onclick="closeLetter()"></div>
   <div class="letter-card" id="letterCardDynamic">
@@ -568,26 +560,23 @@
 </div>
 <button class="close-letter" onclick="closeLetter()">fold it back ↩</button>
 
-<!-- ACTION BUTTONS -->
 <div class="floating-actions">
   <button class="action-btn" id="growthRingBtn">🌳 Growth Ring</button>
-  <button class="action-btn" id="memoriesBtn">📸 Open Memories</button>
+  <button class="action-btn" id="memoriesBtn">📸 Memories</button>
   <button class="action-btn" id="sendButterflyBtn">🦋 Butterfly</button>
   <button class="action-btn" id="sendHugBtn">🤗 Hug</button>
   <button class="action-btn" id="sendKissBtn">💋 Kiss</button>
 </div>
 
-<!-- GROWTH RING MODAL -->
 <div class="modal" id="growthModal">
   <div class="ring-container">
-    <h2 style="font-family: 'Playfair Display'; color:#ffdd99;">🌲 Our Growth Rings</h2>
+    <h2 style="font-family:'Playfair Display'; color:#ffdd99;">🌲 Our Growth Rings</h2>
     <canvas id="ringCanvas" width="200" height="200" class="ring-canvas"></canvas>
     <div class="milestone-list"><ul id="milestoneList"></ul></div>
-    <button onclick="closeModal()" style="margin-top:20px; background:rgba(255,255,255,0.1); border:none; padding:8px 24px; border-radius:40px; color:white; cursor:pointer;">Close</button>
+    <button onclick="closeModal()" style="margin-top:20px; background:rgba(255,255,255,0.1); border:none; padding:6px 20px; border-radius:40px; color:white; cursor:pointer;">Close</button>
   </div>
 </div>
 
-<!-- MEMORIES POLAROID MODAL -->
 <div class="memories-modal" id="memoriesModal">
   <div class="memories-header">
     <h2>📷 Polaroid Memories</h2>
@@ -597,18 +586,17 @@
 </div>
 
 <div class="ambient-quote" id="ambientQuote">"every ring tells our story"</div>
-<div class="datestamp" id="datestamp"></div>
-<div class="countdown-timer" id="countdownTimer">❤️ since we met: <span id="timeSince">loading...</span></div>
+<div class="bottom-bar">
+  <div class="countdown-timer" id="countdownTimer">❤️ since we met: <span id="timeSince">loading...</span></div>
+  <div class="datestamp" id="datestamp"></div>
+</div>
 <div id="toastMsg" class="toast-msg"></div>
 
 <script>
-// ============================================
-// CONFIGURATION
-// ============================================
 const CORRECT_PASSWORD = "2506";
-const START_DATE = new Date(2026, 1, 16); // Feb 16, 2026
-
+const START_DATE = new Date(2026, 1, 16);
 const YOUR_NAME = "Your Atta";
+
 const LETTERS_DATA = [
   { letter:'O', label:'when you\'re overthinking', salutation:'Dear mind that won\'t rest,', sign:`— always holding you, ${YOUR_NAME}`,
     body:`<p>i Know meri jaan ke ap overthink kr rhi and meri jaan i know ap kia feel kr rhi ho now may chahta hoon ke ap imagine kro am just behind you and i grab and hugg you softly or meri jaan thra sa time hai bss jis din may nikkah kru ga naa ap srf mere bare may sochengi apko kabhi overthink ni krne du ga kyuki us time may apke sth huga holding you close to me and kissing you on forehead always remember ap ki overthink mjhy ap se kabhi dur ni kr skti blky jab ap overthink krti or may apko smbhalta hu na mjhy realize hta hai i did good with my partner ke may uski shi tarikay se care kr rha hu and meri jaan i love you so much ap mjhy khd bhi dur ni kr skti apne se may jahan rahun ga srf or srf apka rhunga my tayyaba dw your boy is gonna fight all overthinking and make you happy kyuki am always with you i will never allow you to share your overthinking to anyone besides me may apke liye enough hu and ap mere lit=ye enough hain we only need eachother and meri jaan apka atta bht struggle kr rha hai or bht koshish kr rha hai apko panay ki or inshallah allah usay reward ke tor pe apko dein ge and sb thk hojayega we are gonna be a very happy family holding to eachother and meri jaan mjy ni chahiye koi or na apse behtar na apse kam na apke jesa i need only you just you you are equal to my whole duniya and just mere pe or allah pe trust rkhain am gonna get you no matter what my jaan ki toti apke bghair ni reh skta may to ap meri zarurat hain apko lena ab meri zid bhi hai or meri zarurat bhi so dw am gonna get you and hum puri zindagi pyaar krainge😘😘🐼🐼😘</p>` },
@@ -626,32 +614,23 @@ const MILESTONES = [
   { emoji: "💍", text: "The eternal vow — always and beyond" }
 ];
 
-// POLAROID DATA (30 lovingly named)
-const nicknameMessages = [
-  "My Tayyaba", "My Jaan", "Meri Rasmalai", "Meri Gulab Jamun", "Meri Cutie",
-  "Meri Patootie", "My Penguin", "My Love", "My Wife", "My Happiness",
-  "My Power", "My Weakness", "My Motivation", "My BestFriend", "Mera Sakoon",
-  "My Girl", "Meri Sherni", "My Last Investment", "My Partner", "All I Need",
-  "Moi IceCream", "Mine<3", "Meri Duniya<3", "Meri Mastikhor", "Meri Shehzadi",
-  "My BB Girl<3", "Inshallah, Dr.Tayyaba Atta", "Meri Pagli<3", "I Love You in Every Universe", "My bbg<3"
-];
+const nicknameMessages = ["My Tayyaba", "My Jaan", "Meri Rasmalai", "Meri Cutie", "My Penguin", "My Love", "My Wife", "My Happiness", "Mera Sakoon", "My Girl", "Meri Sherni", "My Last Investment", "My Partner", "All I Need", "Meri Duniya", "Meri Shehzadi", "My BB Girl", "I Love You in Every Universe"];
 const POLAROID_DATA = [];
-for (let i = 1; i <= 30; i++) {
+for (let i = 1; i <= 24; i++) {
   POLAROID_DATA.push({
     imgSrc: `assets/polaroids/${i}.jpg`,
     message: `🦋 ${nicknameMessages[(i-1) % nicknameMessages.length]}`,
-    rotation: (Math.random() * 4 - 2).toFixed(1)
+    rotation: (Math.random() * 3 - 1.5).toFixed(1)
   });
 }
 
-// ========== UNLOCK ==========
 function unlockSite() {
   const pass = document.getElementById('sitePassword').value;
   if (pass === CORRECT_PASSWORD) {
     document.getElementById('lockScreen').style.display = 'none';
-    initMusic();
-    updateLoveCountdown(); 
+    updateLoveCountdown();
     setInterval(updateLoveCountdown, 1000);
+    initMusic();
   } else {
     document.getElementById('lockError').innerText = '💔 Wrong password, my love. Try again.';
   }
@@ -664,11 +643,10 @@ function initMusic() {
   bgMusic = new Audio("assets/music.mp3");
   bgMusic.loop = true;
   bgMusic.volume = 0.2;
-  bgMusic.play().catch(e => console.log("music start on interaction"));
+  bgMusic.play().catch(() => {});
 }
 document.body.addEventListener('click', () => { if (bgMusic && bgMusic.paused) bgMusic.play(); else if (!bgMusic) initMusic(); });
 
-// FIXED COUNTDOWN: days + hours + minutes + seconds
 function updateLoveCountdown() {
   const now = new Date();
   const diffMs = now - START_DATE;
@@ -678,9 +656,8 @@ function updateLoveCountdown() {
   const hours = Math.floor((totalSecs % 86400) / 3600);
   const mins = Math.floor((totalSecs % 3600) / 60);
   const secs = totalSecs % 60;
-  document.getElementById('timeSince').innerHTML = `<span class="time-unit">${days}</span>d <span class="time-unit">${hours}</span>h <span class="time-unit">${mins}</span>m <span class="time-unit">${secs}</span>s`;
+  document.getElementById('timeSince').innerHTML = `<span>${days}</span>d <span>${hours}</span>h <span>${mins}</span>m <span>${secs}</span>s`;
 }
-// initial call after unlock, but also update right away if unlocked later, but lock screen blocks anyway.
 
 let currentTypingTimeout = null;
 function typeTextIntoContainer(container, html) {
@@ -700,11 +677,12 @@ function typeTextIntoContainer(container, html) {
       if(rich[cIdx] === '<'){ let eIdx = rich.indexOf('>', cIdx); if(eIdx !== -1) step = eIdx - cIdx + 1; }
       curP.innerHTML += rich.substr(cIdx, step);
       cIdx += step;
-      currentTypingTimeout = setTimeout(type, 22);
-    } else { pIdx++; curP = null; currentTypingTimeout = setTimeout(type, 60); }
+      currentTypingTimeout = setTimeout(type, 20);
+    } else { pIdx++; curP = null; currentTypingTimeout = setTimeout(type, 50); }
   }
   type();
 }
+
 function renderLetterWithTyping(idx){ 
   const d = LETTERS_DATA[idx]; 
   document.getElementById('letterDecoration').textContent = d.letter;
@@ -719,12 +697,10 @@ function closeLetter(){ if(currentTypingTimeout) clearTimeout(currentTypingTimeo
 let letterOpen=false, currentTab=0;
 function switchTab(idx){ if(letterOpen) closeLetter(); currentTab=idx; document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',i===idx)); document.querySelectorAll('.scene').forEach((s,i)=>s.classList.toggle('active',i===idx)); document.getElementById('sealLetter').textContent = LETTERS_DATA[idx].letter; const quotes=["'the quieter you become'","'even darkest night ends'","'not all who wander are lost'","'to be alive is extraordinary'"]; document.getElementById('ambientQuote').textContent = quotes[idx]; const wrap=document.getElementById('envelopeWrap'); wrap.classList.remove('visible','opening'); setTimeout(()=>wrap.classList.add('visible'),50); }
 
-// Growth Ring
-function drawGrowthRing(){ const canvas=document.getElementById('ringCanvas'); if(!canvas)return; const ctx=canvas.getContext('2d'); const size=Math.min(200, window.innerWidth*0.4); canvas.width=size; canvas.height=size; const c=size/2; ctx.clearRect(0,0,size,size); [0.32,0.58,0.78,0.92,1.0].forEach((r,i)=>{ let rad=(size*0.18)+r*(size*0.32); ctx.beginPath(); ctx.arc(c,c,rad,0,Math.PI*2); ctx.strokeStyle=`rgba(255,200,120,${0.25+i*0.12})`; ctx.lineWidth=2.5; ctx.stroke(); }); ctx.beginPath(); ctx.arc(c,c,size*0.14,0,Math.PI*2); ctx.fillStyle='#ffdd99'; ctx.fill(); ctx.fillStyle='#1a1a2e'; ctx.font=`bold ${Math.floor(size*0.13)}px 'Playfair Display'`; ctx.fillText("❤️", c-13, c+8); }
+function drawGrowthRing(){ const canvas=document.getElementById('ringCanvas'); if(!canvas)return; const ctx=canvas.getContext('2d'); const size=Math.min(200, window.innerWidth*0.4); canvas.width=size; canvas.height=size; const c=size/2; ctx.clearRect(0,0,size,size); [0.32,0.58,0.78,0.92,1.0].forEach((r,i)=>{ let rad=(size*0.18)+r*(size*0.32); ctx.beginPath(); ctx.arc(c,c,rad,0,Math.PI*2); ctx.strokeStyle=`rgba(255,200,120,${0.25+i*0.12})`; ctx.lineWidth=2.5; ctx.stroke(); }); ctx.beginPath(); ctx.arc(c,c,size*0.14,0,Math.PI*2); ctx.fillStyle='#ffdd99'; ctx.fill(); ctx.fillStyle='#1a1a2e'; ctx.font=`bold ${Math.floor(size*0.12)}px 'Playfair Display'`; ctx.fillText("❤️", c-12, c+8); }
 function openGrowthModal(){ drawGrowthRing(); const listEl=document.getElementById('milestoneList'); listEl.innerHTML=''; MILESTONES.forEach(m=>{let li=document.createElement('li'); li.innerHTML=`<span>${m.emoji}</span><span>${m.text}</span>`; listEl.appendChild(li);}); const daysSince=Math.floor((new Date()-START_DATE)/86400000); if(daysSince>0){let li=document.createElement('li'); li.innerHTML=`<span>❤️</span><span>${daysSince} days of endless love</span>`; listEl.appendChild(li);} document.getElementById('growthModal').classList.add('active'); }
 function closeModal(){ document.getElementById('growthModal').classList.remove('active'); }
 
-// Memories
 function buildPolaroidGallery() {
   const grid = document.getElementById('polaroidGrid');
   grid.innerHTML = '';
@@ -739,15 +715,16 @@ function buildPolaroidGallery() {
 function openMemoriesModal() { buildPolaroidGallery(); document.getElementById('memoriesModal').classList.add('active'); }
 function closeMemoriesModal() { document.getElementById('memoriesModal').classList.remove('active'); }
 
-// Floating actions
-function showToast(msg){ let t=document.getElementById('toastMsg'); t.textContent=msg; t.style.opacity='1'; setTimeout(()=>t.style.opacity='0',2200); }
+function showToast(msg){ let t=document.getElementById('toastMsg'); t.textContent=msg; t.style.opacity='1'; setTimeout(()=>t.style.opacity='0',2000); }
 function createFloatingEmoji(emoji,x=window.innerWidth/2,y=window.innerHeight-80){ let d=document.createElement('div'); d.className='floating-heart'; d.textContent=emoji; d.style.left=x+'px'; d.style.top=y+'px'; document.body.appendChild(d); setTimeout(()=>d.remove(),1200); }
 function sendButterfly(){ showToast("🦋 A butterfly carries your whisper..."); createFloatingEmoji("🦋"); }
 function sendVirtualHug(){ showToast("🤗 A warm hug from across the distance"); for(let i=0;i<5;i++) setTimeout(()=>createFloatingEmoji("🤗", window.innerWidth/2+(Math.random()-0.5)*80), i*80); }
 function sendVirtualKiss(){ showToast("💋 A soft kiss on your forehead"); for(let i=0;i<8;i++) setTimeout(()=>createFloatingEmoji("💋", window.innerWidth/2+(Math.random()-0.5)*100), i*60); }
 
-// Cursor + BG
-const cursor=document.getElementById('cursor'), ring=document.getElementById('cursorRing'); let mx=0,my=0,rx=0,ry=0; document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';}); function animate(){rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px';ring.style.top=ry+'px'; requestAnimationFrame(animate);} animate();
+const cursor=document.getElementById('cursor'), ring=document.getElementById('cursorRing'); let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+function animate(){rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px';ring.style.top=ry+'px'; requestAnimationFrame(animate);} animate();
+
 function setupCanvas(c){c.width=window.innerWidth;c.height=window.innerHeight; return c.getContext('2d');}
 function drawGradientScene(canvas, color1, color2){ let ctx=setupCanvas(canvas); function draw(){let grad=ctx.createLinearGradient(0,0,canvas.width,canvas.height); grad.addColorStop(0,color1); grad.addColorStop(1,color2); ctx.fillStyle=grad; ctx.fillRect(0,0,canvas.width,canvas.height); requestAnimationFrame(draw);} draw();}
 drawGradientScene(document.getElementById('canvas-0'), '#0a0a1a', '#1a1a2e');
