@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <title>Eternal Vows | For My Beloved Wife</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -16,6 +16,7 @@
     --gold: #ffdd99;
     --dark-bg: #0a0a1a;
     --glass: rgba(255,255,255,0.05);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   html, body {
@@ -26,7 +27,20 @@
     cursor: none;
   }
 
-  /* CUSTOM CURSOR */
+  /* CUSTOM CURSOR - hidden on touch devices for better UX */
+  @media (hover: hover) {
+    .cursor, .cursor-ring {
+      display: block;
+    }
+  }
+  @media (hover: none) and (pointer: coarse) {
+    .cursor, .cursor-ring {
+      display: none;
+    }
+    body {
+      cursor: auto;
+    }
+  }
   .cursor {
     position: fixed;
     width: 12px; height: 12px;
@@ -103,7 +117,7 @@
     justify-content: center;
     flex-direction: column;
     gap: 4px;
-    cursor: none;
+    cursor: pointer;
     position: relative;
     background: transparent;
     color: rgba(255,255,255,0.35);
@@ -154,7 +168,7 @@
   }
   .envelope-wrap.visible { opacity: 1; transform: translateY(0); }
   .envelope-wrap.opening { opacity: 0; transform: translateY(-40px) scale(0.95); }
-  .envelope { width: clamp(140px, 50vw, 200px); aspect-ratio: 10/7; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6)); transition: transform 0.3s; cursor: none; }
+  .envelope { width: clamp(140px, 50vw, 200px); aspect-ratio: 10/7; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6)); transition: transform 0.3s; cursor: pointer; }
   .envelope:hover { transform: scale(1.03) rotateZ(1deg); }
   .open-hint { font-size: clamp(8px, 2vw, 10px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); font-family: 'Space Mono', monospace; animation: pulseHint 2.5s ease-in-out infinite; cursor: pointer; }
   @keyframes pulseHint { 0%,100% { opacity: 0.3; } 50% { opacity: 0.7; } }
@@ -218,42 +232,53 @@
   .letter-paper.open ~ .close-letter { pointer-events: all; opacity: 1; }
   .close-letter:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
 
-  /* FLOATING ACTION BUTTONS - responsive */
+  /* FLOATING ACTION BUTTONS - IMPROVED FOR ANDROID/TOUCH */
   .floating-actions {
     position: fixed;
-    bottom: clamp(12px, 3vw, 20px);
+    bottom: max(70px, calc(12px + var(--safe-bottom)));
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: clamp(8px, 2vw, 12px);
+    gap: clamp(6px, 2vw, 12px);
     z-index: 200;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(12px);
-    padding: clamp(6px, 1.5vw, 8px) clamp(12px, 2vw, 16px);
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(16px);
+    padding: 10px 16px;
     border-radius: 60px;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.12);
     pointer-events: auto;
     flex-wrap: wrap;
     justify-content: center;
     width: auto;
-    max-width: 95vw;
+    max-width: 92vw;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
   .action-btn {
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.08);
     border: none;
     font-family: 'Space Mono', monospace;
-    font-size: clamp(9px, 2vw, 11px);
-    padding: clamp(4px, 1vw, 6px) clamp(10px, 2vw, 14px);
+    font-size: clamp(10px, 2.2vw, 12px);
+    padding: 8px 14px;
     border-radius: 40px;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255,255,255,0.85);
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: clamp(4px, 1vw, 6px);
+    gap: 6px;
     white-space: nowrap;
+    font-weight: 500;
+    letter-spacing: 0.3px;
   }
-  .action-btn:hover { background: rgba(255,200,150,0.2); transform: scale(1.02); color: white; }
+  .action-btn:active { transform: scale(0.96); background: rgba(255,200,150,0.3); }
+  @media (max-width: 550px) {
+    .floating-actions { padding: 8px 12px; gap: 6px; bottom: max(65px, calc(8px + var(--safe-bottom))); }
+    .action-btn { padding: 6px 10px; font-size: 10px; }
+  }
+  @media (max-width: 400px) {
+    .action-btn { padding: 5px 8px; font-size: 9px; }
+    .floating-actions { gap: 5px; }
+  }
 
   /* GROWTH RING MODAL */
   .modal {
@@ -396,74 +421,87 @@
     margin-top: 8px;
   }
 
-  /* COUNTDOWN + BOTTOM ELEMENTS */
+  /* COUNTDOWN + BOTTOM ELEMENTS - FIXED OVERLAPPING ON ANDROID */
   .bottom-bar {
     position: fixed;
-    bottom: clamp(8px, 2vw, 12px);
+    bottom: max(12px, calc(8px + var(--safe-bottom)));
     left: 0;
     right: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 0 clamp(8px, 2vw, 16px);
-    gap: 8px;
+    padding: 0 clamp(10px, 3vw, 18px);
+    gap: 10px;
     z-index: 15;
     pointer-events: none;
   }
   .countdown-timer {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(9px, 2vw, 11px);
+    font-size: clamp(9px, 2.2vw, 12px);
     font-weight: 500;
-    color: rgba(255,245,200,0.9);
-    background: rgba(0,0,0,0.55);
+    color: rgba(255,245,200,0.95);
+    background: rgba(0,0,0,0.65);
     backdrop-filter: blur(12px);
-    padding: clamp(4px, 1vw, 6px) clamp(10px, 2vw, 14px);
+    padding: 6px 14px;
     border-radius: 48px;
     pointer-events: none;
     letter-spacing: 0.2px;
-    border: 1px solid rgba(255,215,150,0.35);
+    border: 1px solid rgba(255,215,150,0.4);
     white-space: nowrap;
   }
   .datestamp {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(7px, 1.5vw, 9px);
-    color: rgba(255,255,255,0.35);
-    background: rgba(0,0,0,0.4);
+    font-size: clamp(8px, 1.8vw, 10px);
+    color: rgba(255,255,255,0.5);
+    background: rgba(0,0,0,0.5);
     backdrop-filter: blur(8px);
-    padding: clamp(3px, 0.8vw, 4px) clamp(8px, 1.5vw, 12px);
+    padding: 5px 12px;
     border-radius: 40px;
     pointer-events: none;
+    white-space: nowrap;
   }
   .ambient-quote {
     position: fixed;
-    bottom: clamp(8px, 2vw, 12px);
+    bottom: max(12px, calc(8px + var(--safe-bottom)));
     left: 50%;
     transform: translateX(-50%);
     font-style: italic;
-    font-size: clamp(9px, 2vw, 10px);
-    color: rgba(255,255,255,0.25);
+    font-size: clamp(8px, 1.8vw, 10px);
+    color: rgba(255,255,255,0.3);
     white-space: nowrap;
     pointer-events: none;
     z-index: 5;
-    background: rgba(0,0,0,0.3);
-    padding: clamp(3px, 0.8vw, 4px) clamp(10px, 2vw, 14px);
+    background: rgba(0,0,0,0.4);
+    padding: 4px 14px;
     border-radius: 60px;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(6px);
   }
   @media (max-width: 640px) {
-    .bottom-bar { flex-direction: column; align-items: center; bottom: 65px; }
-    .ambient-quote { bottom: 63px; }
+    .bottom-bar { 
+      flex-direction: row; 
+      justify-content: space-between;
+      bottom: max(70px, calc(12px + var(--safe-bottom)));
+    }
+    .ambient-quote { 
+      bottom: max(70px, calc(12px + var(--safe-bottom)));
+      transform: translateX(-50%);
+    }
+    .countdown-timer { white-space: nowrap; font-size: 9px; padding: 5px 12px; }
+    .datestamp { font-size: 7px; padding: 4px 10px; }
+  }
+  @media (max-width: 480px) {
+    .bottom-bar { gap: 6px; }
   }
 
   .toast-msg {
     position: fixed;
-    bottom: 120px;
+    bottom: 130px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
     backdrop-filter: blur(16px);
-    padding: clamp(6px, 1.5vw, 8px) clamp(16px, 3vw, 20px);
+    padding: 8px 20px;
     border-radius: 60px;
     color: #ffdd99;
     font-family: 'Space Mono', monospace;
@@ -644,22 +682,16 @@ const LETTER_BG_IMAGES = [
 
 const LETTERS_DATA = [
   { letter:'O', label:'when you\'re overthinking', salutation:'Dear mind that won\'t rest,', sign:`— always holding you, ${YOUR_NAME}`,
-    body:`<p>i Know meri jaan ke ap overthink kr rhi and meri jaan i know ap kia feel kr rhi ho now may chahta hoon ke ap imagine kro am just behind you and i grab and hugg you softly or meri jaan thri problem ko ak do bar discuss kr lain ge acha ab aye yahan par meri jaan ap nahe lo stress liye kyuki i am there for you and na to koi problem bari hai na choti sb kuch fix ho sktaa hai if you are with someone who really loves you.<br><p>meri jaan plz don't overthink so much kyuki overthinking makes things worse and it won't help you in any way so just chill and relax aur jub bhi ap overthink kro to bas mjhe bulao and we'll talk it out and i promise i'll make it all better for you ya ap mere saath time spend kro sb kuch theek ho jai ga.</p>
-    <p>i love you so much meri jaan and i promise you that i will always be there for you no matter what happens in life so just trust me and believe in us.</p>`
+    body:`<p>i Know meri jaan ke ap overthink kr rhi and meri jaan i know ap kia feel kr rhi ho now may chahta hoon ke ap imagine kro am just behind you and i grab and hugg you softly or meri jaan thra sa time hai bss jis din may nikkah kru ga naa ap srf mere bare may sochengi apko kabhi overthink ni krne du ga kyuki us time may apke sth huga holding you close to me and kissing you on forehead always remember ap ki overthink mjhy ap se kabhi dur ni kr skti blky jab ap overthink krti or may apko smbhalta hu na mjhy realize hta hai i did good with my partner ke may uski shi tarikay se care kr rha hu and meri jaan i love you so much ap mjhy khd bhi dur ni kr skti apne se may jahan rahun ga srf or srf apka rhunga my tayyaba dw your boy is gonna fight all overthinking and make you happy kyuki am always with you i will never allow you to share your overthinking to anyone besides me may apke liye enough hu and ap mere lit=ye enough hain we only need eachother and meri jaan apka atta bht struggle kr rha hai or bht koshish kr rha hai apko panay ki or inshallah allah usay reward ke tor pe apko dein ge and sb thk hojayega we are gonna be a very happy family holding to eachother and meri jaan mjy ni chahiye koi or na apse behtar na apse kam na apke jesa i need only you just you you are equal to my whole duniya and just mere pe or allah pe trust rkhain am gonna get you no matter what my jaan ki toti apke bghair ni reh skta may to ap meri zarurat hain apko lena ab meri zid bhi hai or meri zarurat bhi so dw am gonna get you and hum puri zindagi pyaar krainge😘😘🐼🐼😘</p>`
   },
   { letter:'S', label:'when you\'re sad', salutation:'Dear aching heart,', sign:`— your home is here, ${YOUR_NAME}`,
-    body:`<p>acha gee to meri jaan sad hui vi arey meri shehzadi apko koi sad hnay ki zarurat ni hai kyuki you have me and may sb ke barabar hu and am gonna fix all your sadness jab mjhy pata chalay ga ke ap sad ho to mjhe buhat bura lagta hai kyuki apka sadness mjhe bhi sadness de deta hai.<br></p>
-    <p>ap know kr rhi ho ke am always there for you to make you laugh and smile aur meri jaan ap jub bhi sad feel kro to bas mjhe ek call krna ya message krna and i'll do whatever it takes to make you happy again whether it's talking to you all night or doing something silly to make you laugh.</p>
-    <p>so meri jaan plz don't be sad aur remember that you have me and i will always be by your side through thick and thin and we'll face everything together. i love you so much.</p>`
+    body:`<p>acha gee to meri jaan sad hui vi arey meri shehzadi apko koi sad hnay ki zarurat ni hai kyuki you have me and may sb ke barabar hu and am gonna fix all your sadness jab mjhy pata chalay ga ke meri choti si doll sad hai and meri jaan this is duniya and sadness is part of it and hum sadness ko aisay khattam kr skty ke ap meko batayain or ye letter prhen and may sara imagine kr ke likh rha hu so meri jaan always remember we have allah and allah jis say zyada pyaar krtay na unhay hi test krtay hain and meri jaan u have me aikdam tarakta bharakta item hu ap ka budhu apko khush rkhta hai or try krta hai apko itna pyaar de ke kisi insan ne kabhi itna pyaar na diya ho kisi ko itna pyaar dena hai apko ke ap ko jo dkhe to kahay naseeb ho to tayyaba jesa and meri jaan am gonna do everything to change that sad mouth jo apka bana wa abhi into a cute chota sa meri tayyaba ka pyara sa smile wala mouth and meri jaan agr may available ni hu or ap meri ghair mojudgi may ye prh rhi hain you already promised me to tell me everything that is hurting you when i am available hala ke may har time hi available hta lekn this is like aik chota sa trick hai takay ap  mery se kch bhi na chupayain i love you meri jaan now dont be sad you have me naawwww i love you naa meri cutie patootie chalain ab smile wli snap bhjen pyari si and agr ni hua mood thk to ap mjhy call krain may call uthaun ga or apko thk kru ga mere thk rehne ke liye apka theak hna bht important hai 💕❤️😟</p>`
   },
   { letter:'R', label:'when you need Reassurance', salutation:'Dear wandering soul,', sign:`— I'll be your compass, ${YOUR_NAME}`,
-    body:`<p>ummmm now i gotta tell you how much i love you and why i love you acha s meri jaan first of all jo mjhe apse hai na wo ajtk na kisi se hua hai and na mjhe kisi or se hoskta hai ab mere liye sirf ap hoo aur hamesha rahogi.<br></p>
-    <p>i love the way you smile at me, the way you laugh, the way you care about me and everyone around you. i love how passionate you are about things you believe in and i love your strength and your vulnerability at the same time.</p>
-    <p>meri jaan ap mere liye everything ho and i promise you that i will love you with all my heart for the rest of my life. you are my forever, my always, my everything. so jub bhi ap doubt feel kro to yaad rakho ke am completely and totally in love with you.</p>`
+    body:`<p>ummmm now i gotta tell you how much i love you and why i love you acha s meri jaan first of all jo mjhe apse hai na wo ajtk na kisi se hua hai and na mjhe kisi or se hoskta hai ab mere liye srf ap hain or srf ap hain wrna apke ilawa meri zindagi may or koi ni ayega aisay to ni kehta may ke may har jaga apka rhunga and am gonna fight everyone beshak family ho ya nai am gonna fight every one who has any attension to hurt you and meri jaan may apko itna pyaar krta hu na ke i want my this life and every other life to be with you and meri jaan if i had one bite of food and may khd bhooka hua lekn may phr bhi apko khilau ga kyuki you are the most important person in my life and you gave me that opportunity to love you like that kyuki ap meri nazar se dekhen kabhi apko khd se pyaar hojayega you are like a masterpiece art in my gallery jo ke may kisi ko na dikhaun srf khd dkhun or srf khd dkhun no one can lay eyes on you except me yess i am possessive about you apka ghussa apki khsuhi sb mere hain and am gonna do anything just to bring a smile on my jaan face and am gonna spoil u so much meri jaan bss abhi thora sa struggle inshallah allah mjhy jab nawazay ga may apko aik shehzadi/mahrani/malkin bana ke rkhu ga apka apna kingdom hga jaha ap raaj kraingi or may apka ghulam huga apki sari khawishat jo ap sochen gi wo bhi puri kruga or srf or srf apka rhunga inshallah bss meri jaan mere pe trust rkhain or dua krain kyuki may apke bghair ni reh skta no matter kch bhi hojaye ap srf meri hain and tayyaba sb thk hga kyu ki maty thk kru ga meri jaan i love you so much meri jaan mera hath pakar ke rkhna i need your support and proove to the world ke pyaar kese krtay hain mard😟❤️my Queen ilysm💋💋</p>`
   },
   { letter:'L', label:'why I Love You', salutation:'My eternal flame,', sign:`— yours endlessly, ${YOUR_NAME}`,
-    body:`<p>1. I love the way you smile when you first wake up in the morning.<br> 2. I love how your laughter fills a room with warmth.<br> 3. I love the kindness you show to everyone you meet.<br> 4. I love your strength and resilience in tough times.<br> 5. I love how you make me feel like the luckiest person alive.<br> 6. I love your dreams and ambitions.<br> 7. I love the way you love me back.<br> 8. I love your loyalty and how you never give up on people you care about.<br> 9. I love the little things you do that show you care.<br> 10. I love you for being exactly who you are, and I wouldn't change a single thing about you.</p>
-    <p>Meri jaan, every day with you is a blessing, and I fall in love with you a little more each passing day.</p>`
+    body:`<p>1. I love the way you smile when you first wake up in the morning.<br> 2. I love how your laughter fills a room with warmth.<br> 3. I love the kindness you show to everyone you meet.<br> 4. I love the way you say my name.<br> 5. I love your strength when things get hard.<br> 6. I love how you listen without interrupting.<br> 7. I love the little notes you leave for me.<br> 8. I love your sense of adventure.<br> 9. I love the way you look at me across a crowded room.<br> 10. I love how you remember the small details I forget.<br> 11. I love your patience when I'm having a bad day.<br> 12. I love the way you hold my hand.<br> 13. I love your honesty, even when it's tough to hear.<br> 14. I love how you make ordinary moments feel special.<br> 15. I love the sound of your voice on the phone.<br> 16. I love the way you care for people who need help.<br> 17. I love your taste in music (and that you share it with me).<br> 18. I love the way you dance when you think no one is watching.<br> 19. I love your intelligence and how you challenge me to think.<br> 20. I love the way you wrap your arms around me after a long day.<br> 21. I love your cooking, especially the imperfect meals.<br> 22. I love how you forgive me when I mess up.<br> 23. I love your sense of humor, even the bad puns.<br> 24. I love the way you get excited about little things.<br> 25. I love your dedication to the people you love.<br> 26. I love how you make me feel safe.<br> 27. I love the way your eyes light up when you talk about your dreams.<br> 28. I love your drive to keep growing as a person.<br> 29. I love the way you take care of me when I'm sick.<br> 30. I love your unique perspective on the world.<br> 31. I love how you celebrate my successes like they're your own.<br> 32. I love the quiet moments we spend doing nothing together.<br> 33. I love your courage to be vulnerable.<br> 34. I love the way you scrunch your nose when you think.<br> 35. I love your loyalty, no matter what.<br> 36. I love how you make me want to be a better person.<br> 37. I love the way you fall asleep on my shoulder.<br> 38. I love your creativity and the things you make.<br> 39. I love how you handle stress with grace.<br> 40. I love the way you look when you're deep in thought.<br> 41. I love your ability to find humor in dark times.<br> 42. I love how you always give people a second chance.<br> 43. I love the way you say "I love you" right before hanging up.<br> 44. I love your passion for the things you believe in.<br> 45. I love how you comfort me without needing to say a word.<br> 46. I love the silly faces you make just to make me laugh.<br> 47. I love your respect for everyone, no matter their background.<br> 48. I love the way you smell, like home.<br> 49. I love how you always try to see the best in people.<br> 50. I love your fierce independence.<br> 51. I love the way you tell stories, getting lost in the details.<br> 52. I love your generosity, even when you have little to give.<br> 53. I love how you kiss my forehead.<br> 54. I love your ability to stay calm in a crisis.<br> 55. I love the way you tease me lovingly.<br> 56. I love your stubbornness when it's for a good cause.<br> 57. I love how you push me to chase my goals.<br> 58. I love the way you breathe in deeply when you're content.<br> 59. I love your laugh lines, earned from so much joy.<br> 60. I love how you apologize when you're wrong.<br> 61. I love the way you cheer louder for me than I cheer for myself.<br> 62. I love your gentle touch.<br> 63. I love how you make tough decisions with care.<br> 64. I love the way you get lost in a good book.<br> 65. I love your curiosity about the world.<br> 66. I love how you never give up on the people you love.<br> 67. I love the way you light up a room just by walking in.<br> 68. I love your integrity, doing the right thing even when it's hard.<br> 69. I love how you remember our anniversaries and inside jokes.<br> 70. I love the way you look at sunsets, like you're seeing one for the first time.<br> 71. I love your silliness that brings out my own inner child.<br> 72. I love how you respect my space when I need it.<br> 73. I love the way you make grocery shopping an adventure.<br> 74. I love your wisdom, especially when I'm confused.<br> 75. I love how you laugh at my jokes, even the bad ones.<br> 76. I love the way you hold my face in your hands.<br> 77. I love your faith in us, even during rough patches.<br> 78. I love how you turn mistakes into lessons.<br> 79. I love the way you hum while you work.<br> 80. I love your humility, never bragging about your talents.<br> 81. I love how you take time to notice nature.<br> 82. I love the way you cuddle on a rainy day.<br> 83. I love your determination when everyone else would quit.<br> 84. I love how you speak to animals with such tenderness.<br> 85. I love the way you remember what I need before I ask.<br> 86. I love your enthusiasm for trying new things.<br> 87. I love how you stand up for what's right.<br> 88. I love the way you wear my clothes because they smell like me.<br> 89. I love your ability to make friends anywhere you go.<br> 90. I love how you see the magic in everyday life.<br> 91. I love the way you trace patterns on my skin.<br> 92. I love your resilience after getting knocked down.<br> 93. I love how you always offer the last bite of dessert to me.<br> 94. I love the way you whisper secrets in the dark.<br> 95. I love your hopefulness about the future.<br> 96. I love how you treat service workers with extra kindness.<br> 97. I love the way you say "we" instead of "I" and "you."<br> 98. I love your wild, untamable side.<br> 99. I love how you simply exist, and that makes my world better.<br> 100. I love that of all the people in the world, I get to love you.</p>`
   }
 ];
 
@@ -671,7 +703,6 @@ const MILESTONES = [
 
 const nicknameMessages = ["My Tayyaba", "My Jaan", "Meri Rasmalai", "Meri Cutie", "My Penguin", "My Love", "My Wife", "My Happiness", "Mera Sakoon", "My Girl", "Meri Sherni", "My Last Investment", "My Heartbeat", "My Queen"];
 const POLAROID_DATA = [];
-// Updated to 30 polaroids
 for (let i = 1; i <= 30; i++) {
   POLAROID_DATA.push({
     imgSrc: `assets/polaroids/${i}.jpg`,
