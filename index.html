@@ -181,23 +181,39 @@
     max-height: clamp(60vh, 85vh, 90vh);
     overflow-y: auto;
     padding: clamp(20px, 5vw, 40px) clamp(16px, 4vw, 36px);
-    background: rgba(255,255,255,0.04);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    border: 1px solid rgba(255,255,255,0.1);
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border: 1px solid rgba(255,255,255,0.2);
     border-radius: 2px;
     transform: translateY(30px) scale(0.97);
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     scrollbar-width: thin;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+  }
+  .letter-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(2px);
+    z-index: 0;
+    border-radius: 2px;
+  }
+  .letter-card > * {
+    position: relative;
+    z-index: 1;
   }
   .letter-paper.open .letter-card { transform: translateY(0) scale(1); }
-  .letter-decoration { font-family: 'Playfair Display', serif; font-size: clamp(60px, 15vw, 90px); font-style: italic; color: rgba(255,255,255,0.04); position: absolute; top: -10px; right: 15px; pointer-events: none; }
-  .letter-mood { font-family: 'Space Mono', monospace; font-size: clamp(8px, 2vw, 9px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 24px; }
-  .letter-salutation { font-family: 'Playfair Display', serif; font-size: clamp(16px, 4vw, 20px); font-style: italic; color: rgba(255,255,255,0.8); margin-bottom: 24px; }
-  .letter-body { font-family: 'Cormorant Garamond', serif; font-size: clamp(14px, 3vw, 16px); line-height: 1.85; color: rgba(255,255,255,0.6); font-weight: 300; }
+  .letter-decoration { font-family: 'Playfair Display', serif; font-size: clamp(60px, 15vw, 90px); font-style: italic; color: rgba(255,255,255,0.08); position: absolute; top: -10px; right: 15px; pointer-events: none; z-index: 2; }
+  .letter-mood { font-family: 'Space Mono', monospace; font-size: clamp(8px, 2vw, 9px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+  .letter-salutation { font-family: 'Playfair Display', serif; font-size: clamp(16px, 4vw, 20px); font-style: italic; color: rgba(255,255,255,0.9); margin-bottom: 24px; }
+  .letter-body { font-family: 'Cormorant Garamond', serif; font-size: clamp(14px, 3vw, 16px); line-height: 1.85; color: rgba(255,255,255,0.75); font-weight: 300; }
   .letter-body p { margin-bottom: 16px; }
-  .letter-sign { margin-top: 32px; font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(14px, 3vw, 16px); color: rgba(255,255,255,0.4); }
+  .letter-sign { margin-top: 32px; font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(14px, 3vw, 16px); color: rgba(255,255,255,0.5); }
   .close-letter { position: fixed; top: clamp(60px, 10vw, 80px); right: clamp(12px, 3vw, 20px); z-index: 60; background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); font-family: 'Space Mono', monospace; font-size: clamp(9px, 2vw, 11px); padding: clamp(6px, 1.5vw, 8px) clamp(12px, 2vw, 16px); border-radius: 40px; cursor: pointer; transition: all 0.2s; opacity: 0; pointer-events: none; white-space: nowrap; }
   .letter-paper.open ~ .close-letter { pointer-events: all; opacity: 1; }
   .close-letter:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
@@ -469,36 +485,19 @@
     0% { transform: translateY(0) scale(0.5); opacity: 1; }
     100% { transform: translateY(-100px) scale(1.3); opacity: 0; }
   }
-
- .letter-card.bg0 {
-  background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
-  background-attachment: fixed;
-}
-.letter-card.bg1 {
-  background: linear-gradient(135deg, #3a2a3e, #2a1a2e);
-  background-attachment: fixed;
-}
-.letter-card.bg2 {
-  background: linear-gradient(135deg, #2a3a3e, #1a2a2e);
-  background-attachment: fixed;
-}
-.letter-card.bg3 {
-  background: linear-gradient(135deg, #3e2f2a, #2e1f1a);
-  background-attachment: fixed;
-}
   
   .lock-screen {
     position: fixed;
     inset: 0;
     z-index: 10000;
-    background: radial-gradient(circle at center, #0f0f1f, #03030c);
+    background: radial-gradient(circle at center, #2a2a3ecc, #151525dd);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: clamp(12px, 3vw, 20px);
   }
   .lock-box { 
-    background: rgba(0,0,0,0.75); 
+    background: rgba(0,0,0,0.65); 
     padding: clamp(24px, 6vw, 48px) clamp(16px, 4vw, 36px); 
     border-radius: 32px; 
     text-align: center; 
@@ -529,7 +528,6 @@
   .lock-box button:hover { background: rgba(255,215,150,0.4); color: white; }
   #lockError { min-height: 28px; font-size: clamp(10px, 2vw, 12px); margin-top: 10px; color: #ffaa88; }
 
-  /* SCROLLBAR STYLING */
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -543,6 +541,8 @@
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(255,221,153,0.5);
   }
+  
+  canvas { display: block; width: 100%; height: 100%; }
 </style>
 </head>
 <body>
@@ -634,15 +634,23 @@ const CORRECT_PASSWORD = "2506";
 const START_DATE = new Date(2026, 1, 16);
 const YOUR_NAME = "Your Atta";
 
+// Background images for each letter - stored directly in assets folder as bg1.jpg, bg2.jpg, bg3.jpg, bg4.jpg
+const LETTER_BG_IMAGES = [
+  "assets/bg1.jpg",   // Overthinking letter
+  "assets/bg2.jpg",   // Sad letter  
+  "assets/bg3.jpg",   // Reassurance letter
+  "assets/bg4.jpg"    // I Love You letter
+];
+
 const LETTERS_DATA = [
   { letter:'O', label:'when you\'re overthinking', salutation:'Dear mind that won\'t rest,', sign:`— always holding you, ${YOUR_NAME}`,
-    body:`<p>i Know meri jaan ke ap overthink kr rhi and meri jaan i know ap kia feel kr rhi ho now may chahta hoon ke ap imagine kro am just behind you and i grab and hugg you softly or meri jaan thri problem ko ak do bar discuss kr lain ge acha ab aye yahan par meri jaan ap nahe lo stress liye kyuki i am there for you and na to koi problem bari hai na choti sb kuch fix ho sktaa hai if you are with someone who really loves you.<br><p>meri jaan plz don\'t overthink so much kyuki overthinking makes things worse and it won\'t help you in any way so just chill and relax aur jub bhi ap overthink kro to bas mjhe bulao and we\'ll talk it out and i promise i\'ll make it all better for you ya ap mere saath time spend kro sb kuch theek ho jai ga.</p>
+    body:`<p>i Know meri jaan ke ap overthink kr rhi and meri jaan i know ap kia feel kr rhi ho now may chahta hoon ke ap imagine kro am just behind you and i grab and hugg you softly or meri jaan thri problem ko ak do bar discuss kr lain ge acha ab aye yahan par meri jaan ap nahe lo stress liye kyuki i am there for you and na to koi problem bari hai na choti sb kuch fix ho sktaa hai if you are with someone who really loves you.<br><p>meri jaan plz don't overthink so much kyuki overthinking makes things worse and it won't help you in any way so just chill and relax aur jub bhi ap overthink kro to bas mjhe bulao and we'll talk it out and i promise i'll make it all better for you ya ap mere saath time spend kro sb kuch theek ho jai ga.</p>
     <p>i love you so much meri jaan and i promise you that i will always be there for you no matter what happens in life so just trust me and believe in us.</p>`
   },
   { letter:'S', label:'when you\'re sad', salutation:'Dear aching heart,', sign:`— your home is here, ${YOUR_NAME}`,
     body:`<p>acha gee to meri jaan sad hui vi arey meri shehzadi apko koi sad hnay ki zarurat ni hai kyuki you have me and may sb ke barabar hu and am gonna fix all your sadness jab mjhy pata chalay ga ke ap sad ho to mjhe buhat bura lagta hai kyuki apka sadness mjhe bhi sadness de deta hai.<br></p>
-    <p>ap know kr rhi ho ke am always there for you to make you laugh and smile aur meri jaan ap jub bhi sad feel kro to bas mjhe ek call krna ya message krna and i\'ll do whatever it takes to make you happy again whether it\'s talking to you all night or doing something silly to make you laugh.</p>
-    <p>so meri jaan plz don\'t be sad aur remember that you have me and i will always be by your side through thick and thin and we\'ll face everything together. i love you so much.</p>`
+    <p>ap know kr rhi ho ke am always there for you to make you laugh and smile aur meri jaan ap jub bhi sad feel kro to bas mjhe ek call krna ya message krna and i'll do whatever it takes to make you happy again whether it's talking to you all night or doing something silly to make you laugh.</p>
+    <p>so meri jaan plz don't be sad aur remember that you have me and i will always be by your side through thick and thin and we'll face everything together. i love you so much.</p>`
   },
   { letter:'R', label:'when you need Reassurance', salutation:'Dear wandering soul,', sign:`— I'll be your compass, ${YOUR_NAME}`,
     body:`<p>ummmm now i gotta tell you how much i love you and why i love you acha s meri jaan first of all jo mjhe apse hai na wo ajtk na kisi se hua hai and na mjhe kisi or se hoskta hai ab mere liye sirf ap hoo aur hamesha rahogi.<br></p>
@@ -650,7 +658,7 @@ const LETTERS_DATA = [
     <p>meri jaan ap mere liye everything ho and i promise you that i will love you with all my heart for the rest of my life. you are my forever, my always, my everything. so jub bhi ap doubt feel kro to yaad rakho ke am completely and totally in love with you.</p>`
   },
   { letter:'L', label:'why I Love You', salutation:'My eternal flame,', sign:`— yours endlessly, ${YOUR_NAME}`,
-    body:`<p>1. I love the way you smile when you first wake up in the morning.<br> 2. I love how your laughter fills a room with warmth.<br> 3. I love the kindness you show to everyone you meet.<br> 4. I love your strength and resilience in tough times.<br> 5. I love how you make me feel like the luckiest person alive.<br> 6. I love your dreams and ambitions.<br> 7. I love the way you love me back.<br> 8. I love your loyalty and how you never give up on people you care about.<br> 9. I love the little things you do that show you care.<br> 10. I love you for being exactly who you are, and I wouldn\'t change a single thing about you.</p>
+    body:`<p>1. I love the way you smile when you first wake up in the morning.<br> 2. I love how your laughter fills a room with warmth.<br> 3. I love the kindness you show to everyone you meet.<br> 4. I love your strength and resilience in tough times.<br> 5. I love how you make me feel like the luckiest person alive.<br> 6. I love your dreams and ambitions.<br> 7. I love the way you love me back.<br> 8. I love your loyalty and how you never give up on people you care about.<br> 9. I love the little things you do that show you care.<br> 10. I love you for being exactly who you are, and I wouldn't change a single thing about you.</p>
     <p>Meri jaan, every day with you is a blessing, and I fall in love with you a little more each passing day.</p>`
   }
 ];
@@ -663,7 +671,8 @@ const MILESTONES = [
 
 const nicknameMessages = ["My Tayyaba", "My Jaan", "Meri Rasmalai", "Meri Cutie", "My Penguin", "My Love", "My Wife", "My Happiness", "Mera Sakoon", "My Girl", "Meri Sherni", "My Last Investment", "My Heartbeat", "My Queen"];
 const POLAROID_DATA = [];
-for (let i = 1; i <= 24; i++) {
+// Updated to 30 polaroids
+for (let i = 1; i <= 30; i++) {
   POLAROID_DATA.push({
     imgSrc: `assets/polaroids/${i}.jpg`,
     message: `🦋 ${nicknameMessages[(i-1) % nicknameMessages.length]}`,
@@ -730,6 +739,14 @@ function typeTextIntoContainer(container, html) {
   type();
 }
 
+function setLetterBackground(index) {
+  const letterCard = document.getElementById('letterCardDynamic');
+  const bgImage = LETTER_BG_IMAGES[index];
+  letterCard.style.backgroundImage = `url('${bgImage}')`;
+  letterCard.style.backgroundSize = 'cover';
+  letterCard.style.backgroundPosition = 'center';
+}
+
 function renderLetterWithTyping(idx){ 
   const d = LETTERS_DATA[idx]; 
   document.getElementById('letterDecoration').textContent = d.letter;
@@ -737,7 +754,7 @@ function renderLetterWithTyping(idx){
   document.getElementById('letterSalutation').textContent = d.salutation;
   document.getElementById('letterSign').textContent = d.sign;
   typeTextIntoContainer(document.getElementById('letterBody'), d.body);
-  document.getElementById('letterCardDynamic').className = `letter-card bg${idx}`;
+  setLetterBackground(idx);
 }
 function openLetter(){ 
   document.getElementById('envelopeWrap').classList.add('opening'); 
@@ -770,11 +787,12 @@ function drawGrowthRing(){
   const size=Math.min(200, window.innerWidth*0.4); 
   canvas.width=size; canvas.height=size; 
   const cx=size/2, cy=size/2, baseR=size/6;
+  ctx.clearRect(0,0,size,size);
   for(let i=0;i<3;i++){ 
     ctx.beginPath(); 
     ctx.arc(cx, cy, baseR*(i+1), 0, Math.PI*2); 
-    ctx.strokeStyle=`rgba(255,221,153,${0.4-i*0.1})`; 
-    ctx.lineWidth=2; 
+    ctx.strokeStyle=`rgba(255,221,153,${0.5-i*0.1})`; 
+    ctx.lineWidth=2.5; 
     ctx.stroke(); 
   }
 }
@@ -815,12 +833,25 @@ const cursor=document.getElementById('cursor'), ring=document.getElementById('cu
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
 function animate(){rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px';ring.style.top=ry+'px'; requestAnimationFrame(animate);} animate();
 
-function setupCanvas(c){c.width=window.innerWidth;c.height=window.innerHeight; return c.getContext('2d');}
-function drawGradientScene(canvas, color1, color2){ let ctx=setupCanvas(canvas); function draw(){let grad=ctx.createLinearGradient(0,0,canvas.width,canvas.height); grad.addColorStop(0,color1); grad.addColorStop(1,color2); ctx.fillStyle=grad; ctx.fillRect(0,0,canvas.width,canvas.height);} draw(); window.addEventListener('resize',draw);}
-drawGradientScene(document.getElementById('canvas-0'), '#0a0a1a', '#1a1a2e');
-drawGradientScene(document.getElementById('canvas-1'), '#0f121f', '#191e2f');
-drawGradientScene(document.getElementById('canvas-2'), '#0a0a0f', '#1f1a2a');
-drawGradientScene(document.getElementById('canvas-3'), '#1f180a', '#2a2215');
+function setupCanvas(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  function resizeAndDraw() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const grad = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+    if(canvasId === 'canvas-0') { grad.addColorStop(0,'#0a0a1a'); grad.addColorStop(1,'#1a1a2e'); }
+    else if(canvasId === 'canvas-1') { grad.addColorStop(0,'#0f121f'); grad.addColorStop(1,'#191e2f'); }
+    else if(canvasId === 'canvas-2') { grad.addColorStop(0,'#0a0a0f'); grad.addColorStop(1,'#1f1a2a'); }
+    else { grad.addColorStop(0,'#1f180a'); grad.addColorStop(1,'#2a2215'); }
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+  }
+  resizeAndDraw();
+  window.addEventListener('resize', resizeAndDraw);
+}
+setupCanvas('canvas-0'); setupCanvas('canvas-1'); setupCanvas('canvas-2'); setupCanvas('canvas-3');
+
 document.getElementById('datestamp').innerHTML = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}).toUpperCase();
 
 window.switchTab=switchTab; window.openLetter=openLetter; window.closeLetter=closeLetter; window.unlockSite=unlockSite; window.closeModal=closeModal;
