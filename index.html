@@ -17,6 +17,7 @@
     --dark-bg: #0a0a1a;
     --glass: rgba(255,255,255,0.05);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
   }
 
   html, body {
@@ -24,23 +25,18 @@
     height: 100%;
     overflow: hidden;
     font-family: 'Cormorant Garamond', serif;
-    cursor: none;
   }
 
-  /* CUSTOM CURSOR - hidden on touch devices for better UX */
-  @media (hover: hover) {
-    .cursor, .cursor-ring {
-      display: block;
-    }
+  /* Hide custom cursor on touch devices */
+  @media (hover: hover) and (pointer: fine) {
+    .cursor, .cursor-ring { display: block; }
+    body { cursor: none; }
   }
-  @media (hover: none) and (pointer: coarse) {
-    .cursor, .cursor-ring {
-      display: none;
-    }
-    body {
-      cursor: auto;
-    }
+  @media (hover: none), (pointer: coarse) {
+    .cursor, .cursor-ring { display: none; }
+    body { cursor: auto; }
   }
+  
   .cursor {
     position: fixed;
     width: 12px; height: 12px;
@@ -86,18 +82,18 @@
     display: flex;
     align-items: stretch;
     height: auto;
-    min-height: 64px;
+    min-height: 56px;
     border-bottom: 1px solid rgba(255,255,255,0.06);
     backdrop-filter: blur(20px);
     background: rgba(0,0,0,0.4);
     flex-wrap: wrap;
   }
   .nav-brand {
-    padding: 0 clamp(12px, 4vw, 24px);
+    padding: 0 clamp(10px, 3vw, 20px);
     display: flex;
     align-items: center;
     font-family: 'Space Mono', monospace;
-    font-size: clamp(8px, 2vw, 10px);
+    font-size: clamp(7px, 1.8vw, 9px);
     color: rgba(255,255,255,0.3);
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -111,12 +107,12 @@
   }
   .nav-tab {
     flex: 1;
-    min-width: 70px;
+    min-width: 65px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
     cursor: pointer;
     position: relative;
     background: transparent;
@@ -124,21 +120,22 @@
     font-family: 'Cormorant Garamond', serif;
     transition: color 0.4s;
     border-right: 1px solid rgba(255,255,255,0.04);
-    padding: clamp(8px, 2vw, 12px) clamp(4px, 1.5vw, 6px);
+    padding: 8px 3px;
     text-align: center;
   }
   @media (max-width: 480px) {
-    .nav-tab { min-width: 60px; padding: 6px 3px; }
+    .nav-tab { min-width: 55px; padding: 6px 2px; }
+    .nav-brand { padding: 0 8px; font-size: 6px; }
   }
   .nav-tab.active { color: rgba(255,255,255,0.9); }
-  .nav-tab .tab-label { font-size: clamp(7px, 1.5vw, 8px); letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Space Mono', monospace; opacity: 0.6; }
+  .nav-tab .tab-label { font-size: clamp(6px, 1.5vw, 7px); letter-spacing: 0.15em; text-transform: uppercase; font-family: 'Space Mono', monospace; opacity: 0.6; }
   .nav-tab.active .tab-label { opacity: 1; }
-  .nav-tab .tab-emotion { font-size: clamp(11px, 3vw, 13px); font-style: italic; font-weight: 300; }
+  .nav-tab .tab-emotion { font-size: clamp(10px, 2.5vw, 12px); font-style: italic; font-weight: 300; }
   .nav-tab .tab-indicator {
     position: absolute;
     bottom: 0; left: 50%;
     transform: translateX(-50%) scaleX(0);
-    width: 60%;
+    width: 50%;
     height: 1px;
     background: rgba(255,255,255,0.6);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -168,7 +165,7 @@
   }
   .envelope-wrap.visible { opacity: 1; transform: translateY(0); }
   .envelope-wrap.opening { opacity: 0; transform: translateY(-40px) scale(0.95); }
-  .envelope { width: clamp(140px, 50vw, 200px); aspect-ratio: 10/7; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6)); transition: transform 0.3s; cursor: pointer; }
+  .envelope { width: clamp(130px, 45vw, 180px); aspect-ratio: 10/7; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6)); transition: transform 0.3s; cursor: pointer; }
   .envelope:hover { transform: scale(1.03) rotateZ(1deg); }
   .open-hint { font-size: clamp(8px, 2vw, 10px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); font-family: 'Space Mono', monospace; animation: pulseHint 2.5s ease-in-out infinite; cursor: pointer; }
   @keyframes pulseHint { 0%,100% { opacity: 0.3; } 50% { opacity: 0.7; } }
@@ -232,52 +229,56 @@
   .letter-paper.open ~ .close-letter { pointer-events: all; opacity: 1; }
   .close-letter:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
 
-  /* FLOATING ACTION BUTTONS - IMPROVED FOR ANDROID/TOUCH */
+  /* FLOATING ACTION BUTTONS - COMPLETELY REDESIGNED FOR ANDROID */
   .floating-actions {
     position: fixed;
-    bottom: max(70px, calc(12px + var(--safe-bottom)));
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 16px;
+    left: 0;
+    right: 0;
     display: flex;
-    gap: clamp(6px, 2vw, 12px);
+    justify-content: center;
+    gap: 8px;
     z-index: 200;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(16px);
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(20px);
     padding: 10px 16px;
     border-radius: 60px;
     border: 1px solid rgba(255,255,255,0.12);
     pointer-events: auto;
+    width: fit-content;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     flex-wrap: wrap;
-    justify-content: center;
-    width: auto;
-    max-width: 92vw;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    max-width: 94vw;
   }
   .action-btn {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.1);
     border: none;
     font-family: 'Space Mono', monospace;
-    font-size: clamp(10px, 2.2vw, 12px);
+    font-size: 11px;
     padding: 8px 14px;
     border-radius: 40px;
-    color: rgba(255,255,255,0.85);
+    color: rgba(255,255,255,0.9);
     cursor: pointer;
     transition: all 0.2s ease;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
     white-space: nowrap;
     font-weight: 500;
     letter-spacing: 0.3px;
+    min-width: auto;
+    -webkit-tap-highlight-color: transparent;
   }
   .action-btn:active { transform: scale(0.96); background: rgba(255,200,150,0.3); }
+  
   @media (max-width: 550px) {
-    .floating-actions { padding: 8px 12px; gap: 6px; bottom: max(65px, calc(8px + var(--safe-bottom))); }
+    .floating-actions { padding: 8px 12px; gap: 6px; bottom: 12px; }
     .action-btn { padding: 6px 10px; font-size: 10px; }
   }
-  @media (max-width: 400px) {
+  @media (max-width: 420px) {
+    .floating-actions { padding: 7px 10px; gap: 5px; }
     .action-btn { padding: 5px 8px; font-size: 9px; }
-    .floating-actions { gap: 5px; }
   }
 
   /* GROWTH RING MODAL */
@@ -421,30 +422,30 @@
     margin-top: 8px;
   }
 
-  /* COUNTDOWN + BOTTOM ELEMENTS - FIXED OVERLAPPING ON ANDROID */
-  .bottom-bar {
+  /* COUNTDOWN - SEPARATE FROM BUTTONS, NO OVERLAP */
+  .bottom-info {
     position: fixed;
-    bottom: max(12px, calc(8px + var(--safe-bottom)));
+    bottom: 16px;
     left: 0;
     right: 0;
     display: flex;
-    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 clamp(10px, 3vw, 18px);
-    gap: 10px;
+    gap: 12px;
     z-index: 15;
     pointer-events: none;
+    flex-wrap: wrap;
+    padding: 0 12px;
   }
   .countdown-timer {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(9px, 2.2vw, 12px);
+    font-size: 10px;
     font-weight: 500;
     color: rgba(255,245,200,0.95);
     background: rgba(0,0,0,0.65);
     backdrop-filter: blur(12px);
-    padding: 6px 14px;
-    border-radius: 48px;
+    padding: 5px 14px;
+    border-radius: 40px;
     pointer-events: none;
     letter-spacing: 0.2px;
     border: 1px solid rgba(255,215,150,0.4);
@@ -452,7 +453,7 @@
   }
   .datestamp {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(8px, 1.8vw, 10px);
+    font-size: 9px;
     color: rgba(255,255,255,0.5);
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(8px);
@@ -461,42 +462,56 @@
     pointer-events: none;
     white-space: nowrap;
   }
+  
+  /* Adjust for smaller screens - move bottom info higher to avoid overlap with buttons */
+  @media (max-width: 550px) {
+    .bottom-info {
+      bottom: 75px;
+    }
+    .floating-actions {
+      bottom: 12px;
+    }
+  }
+  @media (max-width: 420px) {
+    .bottom-info {
+      bottom: 70px;
+    }
+    .countdown-timer { font-size: 8px; padding: 4px 10px; }
+    .datestamp { font-size: 7px; padding: 4px 8px; }
+  }
+  @media (min-width: 551px) {
+    .bottom-info {
+      bottom: 16px;
+    }
+    .floating-actions {
+      bottom: 16px;
+    }
+  }
+
   .ambient-quote {
     position: fixed;
-    bottom: max(12px, calc(8px + var(--safe-bottom)));
+    top: auto;
+    bottom: 80px;
     left: 50%;
     transform: translateX(-50%);
     font-style: italic;
-    font-size: clamp(8px, 1.8vw, 10px);
-    color: rgba(255,255,255,0.3);
+    font-size: 9px;
+    color: rgba(255,255,255,0.25);
     white-space: nowrap;
     pointer-events: none;
     z-index: 5;
-    background: rgba(0,0,0,0.4);
-    padding: 4px 14px;
+    background: rgba(0,0,0,0.3);
+    padding: 3px 12px;
     border-radius: 60px;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(4px);
   }
-  @media (max-width: 640px) {
-    .bottom-bar { 
-      flex-direction: row; 
-      justify-content: space-between;
-      bottom: max(70px, calc(12px + var(--safe-bottom)));
-    }
-    .ambient-quote { 
-      bottom: max(70px, calc(12px + var(--safe-bottom)));
-      transform: translateX(-50%);
-    }
-    .countdown-timer { white-space: nowrap; font-size: 9px; padding: 5px 12px; }
-    .datestamp { font-size: 7px; padding: 4px 10px; }
-  }
-  @media (max-width: 480px) {
-    .bottom-bar { gap: 6px; }
+  @media (max-width: 550px) {
+    .ambient-quote { bottom: 95px; }
   }
 
   .toast-msg {
     position: fixed;
-    bottom: 130px;
+    bottom: 120px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0,0,0,0.85);
@@ -505,7 +520,7 @@
     border-radius: 60px;
     color: #ffdd99;
     font-family: 'Space Mono', monospace;
-    font-size: clamp(10px, 2vw, 12px);
+    font-size: 11px;
     z-index: 2000;
     pointer-events: none;
     opacity: 0;
@@ -576,9 +591,6 @@
     background: rgba(255,221,153,0.3);
     border-radius: 4px;
   }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,221,153,0.5);
-  }
   
   canvas { display: block; width: 100%; height: 100%; }
 </style>
@@ -648,7 +660,7 @@
     <h2 style="font-family:'Playfair Display'; color:#ffdd99; font-size: clamp(18px, 4vw, 24px);">🌲 Our Growth Rings</h2>
     <canvas id="ringCanvas" width="200" height="200" class="ring-canvas"></canvas>
     <div class="milestone-list"><ul id="milestoneList"></ul></div>
-    <button onclick="closeModal()" style="margin-top:20px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:clamp(6px, 1vw, 8px) clamp(16px, 2vw, 20px); border-radius:40px; color:white; cursor:pointer; font-size:clamp(10px, 2vw, 12px); font-family:'Space Mono', monospace; transition:all 0.2s;">Close</button>
+    <button onclick="closeModal()" style="margin-top:20px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:clamp(6px, 1vw, 8px) clamp(16px, 2vw, 20px); border-radius:40px; color:white; cursor:pointer; font-size:clamp(10px, 2vw, 12px); font-family:'Space Mono', monospace;">Close</button>
   </div>
 </div>
 
@@ -661,7 +673,8 @@
 </div>
 
 <div class="ambient-quote" id="ambientQuote">"every ring tells our story"</div>
-<div class="bottom-bar">
+
+<div class="bottom-info">
   <div class="countdown-timer" id="countdownTimer">❤️ since we met: <span id="timeSince">loading...</span></div>
   <div class="datestamp" id="datestamp"></div>
 </div>
@@ -672,15 +685,14 @@ const CORRECT_PASSWORD = "2506";
 const START_DATE = new Date(2026, 1, 16);
 const YOUR_NAME = "Your Atta";
 
-// Background images for each letter - stored directly in assets folder as bg1.jpg, bg2.jpg, bg3.jpg, bg4.jpg
 const LETTER_BG_IMAGES = [
-  "assets/bg1.jpg",   // Overthinking letter
-  "assets/bg2.jpg",   // Sad letter  
-  "assets/bg3.jpg",   // Reassurance letter
-  "assets/bg4.jpg"    // I Love You letter
+  "assets/bg1.jpg",
+  "assets/bg2.jpg",
+  "assets/bg3.jpg",
+  "assets/bg4.jpg"
 ];
 
-const LETTERS_DATA = [
+const LETTERS_DATA =[
   { letter:'O', label:'when you\'re overthinking', salutation:'Dear mind that won\'t rest,', sign:`— always holding you, ${YOUR_NAME}`,
     body:`<p>i Know meri jaan ke ap overthink kr rhi and meri jaan i know ap kia feel kr rhi ho now may chahta hoon ke ap imagine kro am just behind you and i grab and hugg you softly or meri jaan thra sa time hai bss jis din may nikkah kru ga naa ap srf mere bare may sochengi apko kabhi overthink ni krne du ga kyuki us time may apke sth huga holding you close to me and kissing you on forehead always remember ap ki overthink mjhy ap se kabhi dur ni kr skti blky jab ap overthink krti or may apko smbhalta hu na mjhy realize hta hai i did good with my partner ke may uski shi tarikay se care kr rha hu and meri jaan i love you so much ap mjhy khd bhi dur ni kr skti apne se may jahan rahun ga srf or srf apka rhunga my tayyaba dw your boy is gonna fight all overthinking and make you happy kyuki am always with you i will never allow you to share your overthinking to anyone besides me may apke liye enough hu and ap mere lit=ye enough hain we only need eachother and meri jaan apka atta bht struggle kr rha hai or bht koshish kr rha hai apko panay ki or inshallah allah usay reward ke tor pe apko dein ge and sb thk hojayega we are gonna be a very happy family holding to eachother and meri jaan mjy ni chahiye koi or na apse behtar na apse kam na apke jesa i need only you just you you are equal to my whole duniya and just mere pe or allah pe trust rkhain am gonna get you no matter what my jaan ki toti apke bghair ni reh skta may to ap meri zarurat hain apko lena ab meri zid bhi hai or meri zarurat bhi so dw am gonna get you and hum puri zindagi pyaar krainge😘😘🐼🐼😘</p>`
   },
@@ -774,10 +786,7 @@ function setLetterBackground(index) {
   const letterCard = document.getElementById('letterCardDynamic');
   const bgImage = LETTER_BG_IMAGES[index];
   letterCard.style.backgroundImage = `url('${bgImage}')`;
-  letterCard.style.backgroundSize = 'cover';
-  letterCard.style.backgroundPosition = 'center';
 }
-
 function renderLetterWithTyping(idx){ 
   const d = LETTERS_DATA[idx]; 
   document.getElementById('letterDecoration').textContent = d.letter;
