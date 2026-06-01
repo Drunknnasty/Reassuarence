@@ -229,7 +229,7 @@
   .letter-paper.open ~ .close-letter { pointer-events: all; opacity: 1; }
   .close-letter:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
 
-  /* FLOATING ACTION BUTTONS - COMPLETELY REDESIGNED FOR ANDROID */
+  /* FLOATING ACTION BUTTONS - HIDE WHEN LETTER OPENS */
   .floating-actions {
     position: fixed;
     bottom: 16px;
@@ -250,6 +250,13 @@
     box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     flex-wrap: wrap;
     max-width: 94vw;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  /* Hide floating actions when letter is open */
+  body.letter-open-state .floating-actions {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
   .action-btn {
     background: rgba(255,255,255,0.1);
@@ -422,29 +429,25 @@
     margin-top: 8px;
   }
 
-  /* COUNTDOWN - SEPARATE FROM BUTTONS, NO OVERLAP */
-  .bottom-info {
+  /* COUNTER - MOVED TO TOP LEFT CORNER, NO OVERLAP */
+  .top-counter {
     position: fixed;
-    bottom: 16px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
+    top: max(70px, calc(10px + var(--safe-top)));
+    left: 12px;
     z-index: 15;
     pointer-events: none;
-    flex-wrap: wrap;
-    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
   .countdown-timer {
     font-family: 'Space Mono', monospace;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 500;
     color: rgba(255,245,200,0.95);
     background: rgba(0,0,0,0.65);
     backdrop-filter: blur(12px);
-    padding: 5px 14px;
+    padding: 5px 12px;
     border-radius: 40px;
     pointer-events: none;
     letter-spacing: 0.2px;
@@ -453,45 +456,26 @@
   }
   .datestamp {
     font-family: 'Space Mono', monospace;
-    font-size: 9px;
+    font-size: 8px;
     color: rgba(255,255,255,0.5);
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(8px);
-    padding: 5px 12px;
+    padding: 4px 10px;
     border-radius: 40px;
     pointer-events: none;
     white-space: nowrap;
+    width: fit-content;
   }
   
-  /* Adjust for smaller screens - move bottom info higher to avoid overlap with buttons */
   @media (max-width: 550px) {
-    .bottom-info {
-      bottom: 75px;
-    }
-    .floating-actions {
-      bottom: 12px;
-    }
-  }
-  @media (max-width: 420px) {
-    .bottom-info {
-      bottom: 70px;
-    }
+    .top-counter { top: max(65px, calc(8px + var(--safe-top))); left: 8px; }
     .countdown-timer { font-size: 8px; padding: 4px 10px; }
-    .datestamp { font-size: 7px; padding: 4px 8px; }
-  }
-  @media (min-width: 551px) {
-    .bottom-info {
-      bottom: 16px;
-    }
-    .floating-actions {
-      bottom: 16px;
-    }
+    .datestamp { font-size: 7px; padding: 3px 8px; }
   }
 
   .ambient-quote {
     position: fixed;
-    top: auto;
-    bottom: 80px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     font-style: italic;
@@ -506,12 +490,12 @@
     backdrop-filter: blur(4px);
   }
   @media (max-width: 550px) {
-    .ambient-quote { bottom: 95px; }
+    .ambient-quote { bottom: 12px; font-size: 7px; }
   }
 
   .toast-msg {
     position: fixed;
-    bottom: 120px;
+    bottom: 100px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0,0,0,0.85);
@@ -674,7 +658,8 @@
 
 <div class="ambient-quote" id="ambientQuote">"every ring tells our story"</div>
 
-<div class="bottom-info">
+<!-- Counter moved to top-left corner -->
+<div class="top-counter">
   <div class="countdown-timer" id="countdownTimer">❤️ since we met: <span id="timeSince">loading...</span></div>
   <div class="datestamp" id="datestamp"></div>
 </div>
@@ -692,7 +677,7 @@ const LETTER_BG_IMAGES = [
   "assets/bg4.jpg"
 ];
 
-const LETTERS_DATA =[
+const LETTERS_DATA = [
   { letter:'O', label:'when you\'re overthinking', salutation:'Dear mind that won\'t rest,', sign:`— always holding you, ${YOUR_NAME}`,
     body:`<p>i Know meri jaan ke ap overthink kr rhi and meri jaan i know ap kia feel kr rhi ho now may chahta hoon ke ap imagine kro am just behind you and i grab and hugg you softly or meri jaan thra sa time hai bss jis din may nikkah kru ga naa ap srf mere bare may sochengi apko kabhi overthink ni krne du ga kyuki us time may apke sth huga holding you close to me and kissing you on forehead always remember ap ki overthink mjhy ap se kabhi dur ni kr skti blky jab ap overthink krti or may apko smbhalta hu na mjhy realize hta hai i did good with my partner ke may uski shi tarikay se care kr rha hu and meri jaan i love you so much ap mjhy khd bhi dur ni kr skti apne se may jahan rahun ga srf or srf apka rhunga my tayyaba dw your boy is gonna fight all overthinking and make you happy kyuki am always with you i will never allow you to share your overthinking to anyone besides me may apke liye enough hu and ap mere lit=ye enough hain we only need eachother and meri jaan apka atta bht struggle kr rha hai or bht koshish kr rha hai apko panay ki or inshallah allah usay reward ke tor pe apko dein ge and sb thk hojayega we are gonna be a very happy family holding to eachother and meri jaan mjy ni chahiye koi or na apse behtar na apse kam na apke jesa i need only you just you you are equal to my whole duniya and just mere pe or allah pe trust rkhain am gonna get you no matter what my jaan ki toti apke bghair ni reh skta may to ap meri zarurat hain apko lena ab meri zid bhi hai or meri zarurat bhi so dw am gonna get you and hum puri zindagi pyaar krainge😘😘🐼🐼😘</p>`
   },
@@ -802,12 +787,14 @@ function openLetter(){
   setTimeout(()=>{ 
     document.getElementById('letterPaper').classList.add('open'); 
     letterOpen=true;
+    document.body.classList.add('letter-open-state');
   }, 500);
 }
 function closeLetter(){ 
   if(currentTypingTimeout) clearTimeout(currentTypingTimeout); 
   document.getElementById('letterPaper').classList.remove('open'); 
   letterOpen=false; 
+  document.body.classList.remove('letter-open-state');
   const wrap=document.getElementById('envelopeWrap');
   wrap.classList.remove('opening');
   setTimeout(()=>wrap.classList.add('visible'), 200);
